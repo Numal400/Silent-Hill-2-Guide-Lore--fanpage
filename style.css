@@ -1,0 +1,10103 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Share+Tech+Mono&display=swap');
+
+:root {
+  --bg: #080909;
+  --panel: #111313;
+  --panel2: #171919;
+  --text: #d8d8d1;
+  --muted: #858984;
+  --red: #9d1717;
+  --red2: #c52828;
+  --line: #2c2e2d;
+  --max: 1180px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+body:before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 45%, transparent 15%, rgba(0,0,0,.58) 85%);
+  z-index: -2;
+}
+
+.noise {
+  position: fixed;
+  inset: 0;
+  opacity: .055;
+  pointer-events: none;
+  z-index: 90;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+}
+
+.fog {
+  position: fixed;
+  width: 70vw;
+  height: 25vh;
+  filter: blur(45px);
+  opacity: .11;
+  background: #d7d8d2;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.fog-a {
+  top: 35%;
+  left: -20%;
+  animation: fog 20s linear infinite;
+}
+
+.fog-b {
+  top: 65%;
+  right: -20%;
+  animation: fog 26s linear infinite reverse;
+}
+
+@keyframes fog {
+  0% { transform: translateX(0) scale(1); }
+  50% { transform: translateX(35vw) scale(1.3); }
+  100% { transform: translateX(70vw) scale(1); }
+}
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5vw;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  background: rgba(7,8,8,.78);
+  backdrop-filter: blur(12px);
+  z-index: 50;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text);
+  font-family: Cinzel, serif;
+  letter-spacing: 3px;
+}
+
+.brand span { font-size: 12px; }
+
+.brand strong {
+  font-size: 30px;
+  color: var(--red2);
+  font-weight: 800;
+}
+
+.nav {
+  display: flex;
+  gap: 30px;
+}
+
+.nav a {
+  color: #888;
+  text-decoration: none;
+  font: 12px "Share Tech Mono", monospace;
+  letter-spacing: 2px;
+  transition: .25s;
+}
+
+.nav a:hover,
+.nav a.active {
+  color: #eee;
+}
+
+.nav a.active {
+  color: var(--red2);
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  color: white;
+  border: 0;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.page {
+  display: none;
+  min-height: 100vh;
+}
+
+.page.active {
+  display: block;
+}
+
+.page.entering {
+  animation: pageEnter .8s cubic-bezier(.22,.61,.36,1) both;
+}
+
+@keyframes pageEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(.99);
+    filter: blur(7px);
+  }
+  55% {
+    opacity: .7;
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(ellipse at center, rgba(190,190,185,.16), rgba(0,0,0,.96) 82%);
+}
+
+.page-transition.active {
+  animation: fogTransition .72s ease-in-out;
+}
+
+@keyframes fogTransition {
+  0% { opacity: 0; backdrop-filter: blur(0); }
+  42% { opacity: .9; backdrop-filter: blur(7px); }
+  100% { opacity: 0; backdrop-filter: blur(0); }
+}
+
+.hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 120px 9vw;
+  overflow: hidden;
+}
+
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  filter: grayscale(70%) contrast(100%) brightness(100%);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(0,0,0,.45), rgba(0,0,0,.15) 50%, rgba(0,0,0,.35));
+}
+
+.hero:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent 0 4px, rgba(255,255,255,.012) 5px);
+  pointer-events: none;
+}
+
+.hero-copy {
+  max-width: 780px;
+}
+
+.eyebrow {
+  font: 11px "Share Tech Mono", monospace;
+  letter-spacing: 3px;
+  color: #9a9c97;
+  margin: 0 0 18px;
+}
+
+.hero h1,
+.page-hero h1 {
+  font: 800 clamp(70px,11vw,150px)/.78 Cinzel, serif;
+  letter-spacing: -7px;
+  margin: 0;
+  color: #deded8;
+  text-shadow: 0 5px 30px #000;
+}
+
+.hero h1 span,
+.page-hero h1 span {
+  color: #a71919;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: #7e1010;
+  font-size: .6em;
+  vertical-align: top;
+  margin-left: 10px;
+}
+
+.tagline {
+  font: 16px "Share Tech Mono", monospace;
+  color: #aaa;
+  margin: 35px 0;
+  max-width: 500px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 15px 23px;
+  text-decoration: none;
+  font: 12px "Share Tech Mono", monospace;
+  letter-spacing: 2px;
+  transition: .3s;
+}
+
+.btn-primary {
+  background: var(--red);
+  color: #fff;
+  border: 1px solid var(--red2);
+}
+
+.btn-ghost {
+  border: 1px solid #454746;
+  color: #bbb;
+}
+
+.btn:hover {
+  filter: brightness(1.25);
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: scale(.97);
+}
+
+.location-card {
+  position: absolute;
+  right: 8vw;
+  bottom: 13vh;
+  border-left: 2px solid var(--red);
+  padding: 8px 0 8px 18px;
+  font-family: "Share Tech Mono", monospace;
+}
+
+.location-card span,
+.location-card small {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #777;
+}
+
+.location-card strong {
+  display: block;
+  margin: 6px 0;
+  font-size: 18px;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font: 9px "Share Tech Mono", monospace;
+  letter-spacing: 2px;
+  color: #777;
+}
+
+.scroll-hint span {
+  color: var(--red2);
+  margin-left: 8px;
+}
+
+.section {
+  max-width: var(--max);
+  margin: auto;
+  padding: 110px 5vw;
+}
+
+.intro {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 30px;
+}
+
+.section-number {
+  font: 14px "Share Tech Mono", monospace;
+  color: var(--red2);
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+
+.intro h2,
+.section-heading h2 {
+  font: clamp(35px,5vw,64px) Cinzel, serif;
+  margin: 0 0 25px;
+  max-width: 800px;
+}
+
+.lead {
+  font-size: 18px;
+  line-height: 1.8;
+  color: #b6b7b1;
+  max-width: 800px;
+}
+
+.muted {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.6;
+  max-width: 700px;
+}
+
+.section-heading {
+  margin-bottom: 40px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  background: var(--line);
+}
+
+.feature-card {
+  min-height: 260px;
+  background: var(--panel);
+  padding: 34px;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  transition: .3s;
+}
+
+.feature-card:hover {
+  background: #181b1b;
+  transform: translateY(-3px);
+}
+
+.card-icon {
+  font: 11px "Share Tech Mono";
+  color: var(--red2);
+}
+
+.feature-card h3 {
+  font: 600 28px Cinzel;
+  margin: 28px 0 12px;
+}
+
+.feature-card p {
+  color: #8e918c;
+  line-height: 1.6;
+  max-width: 420px;
+}
+
+.card-link {
+  position: absolute;
+  bottom: 28px;
+  font: 10px "Share Tech Mono";
+  letter-spacing: 2px;
+  color: #a6a8a3;
+}
+
+.quote-section {
+  padding: 140px 5vw;
+  text-align: center;
+  background: linear-gradient(#090a0a,#111414,#090a0a);
+  border-block: 1px solid var(--line);
+}
+
+.quote-mark {
+  font: 100px Georgia;
+  color: #7d1111;
+  height: 70px;
+}
+
+.quote-section blockquote {
+  font: clamp(24px,4vw,48px) Cinzel;
+  margin: 20px auto;
+  max-width: 800px;
+}
+
+.quote-section p {
+  font: 10px "Share Tech Mono";
+  letter-spacing: 3px;
+  color: #666;
+}
+
+.terminal {
+  padding-top: 70px;
+  padding-bottom: 120px;
+}
+
+.terminal-inner {
+  border: 1px solid #2a2d2c;
+  background: #050606;
+  padding: 30px;
+  font: 13px/2 "Share Tech Mono", monospace;
+  color: #707570;
+  box-shadow: 0 0 50px rgba(0,0,0,.5);
+}
+
+.terminal-line { color: #aaa; }
+.terminal-line span { color: var(--red2); }
+.terminal b { color: #b7bbb4; }
+
+.cursor {
+  animation: blink 1s steps(2) infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+footer {
+  padding: 45px 5vw;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  color: #666;
+  font-size: 11px;
+}
+
+footer strong {
+  font: 11px "Share Tech Mono";
+  color: #999;
+  letter-spacing: 2px;
+}
+
+footer p {
+  line-height: 1.6;
+}
+
+.subpage {
+  padding-top: 76px;
+}
+
+.page-hero {
+  min-height: 58vh;
+  padding: 150px 8vw 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: radial-gradient(circle at 55% 50%, #292f2f, #080909 65%);
+}
+
+.page-hero h1 {
+  font-size: clamp(60px,9vw,125px);
+  letter-spacing: -5px;
+}
+
+.page-hero > p:last-child {
+  max-width: 650px;
+  color: #888;
+  line-height: 1.7;
+  margin-top: 35px;
+}
+
+.character-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.character-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  min-height: 300px;
+  overflow: hidden;
+  transition: transform .3s ease, border-color .3s ease;
+}
+
+.character-card:hover {
+  border-color: #454746;
+  transform: translateY(-2px);
+}
+
+.character-photo {
+  position: relative;
+  width: 150px;
+  height: 100%;
+  min-height: 300px;
+  overflow: hidden;
+  background: #111313;
+  border-right: 1px solid var(--line);
+}
+
+.character-photo img {
+  width: 150px;
+  height: 100%;
+  min-height: 300px;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  filter: grayscale(25%) contrast(105%) brightness(85%);
+  transform: scale(1.01);
+  transition: transform .7s ease, filter .7s ease;
+}
+
+.character-card:hover .character-photo img {
+  transform: scale(1.06);
+  filter: grayscale(0%) contrast(110%) brightness(100%);
+}
+
+.photo-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.35));
+}
+
+.photo-number {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  font: 9px "Share Tech Mono", monospace;
+  letter-spacing: 2px;
+  color: #ddd;
+  background: rgba(0,0,0,.65);
+  padding: 5px 7px;
+  border-left: 2px solid var(--red2);
+}
+
+.character-info {
+  padding: 28px;
+  min-width: 0;
+}
+
+.character-info h2 {
+  font: 600 26px Cinzel;
+  margin: 0 0 15px;
+}
+
+.character-info p:not(.eyebrow) {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #8d908b;
+}
+
+.reveal-btn,
+.choice {
+  background: transparent;
+  border: 1px solid #444;
+  color: #999;
+  padding: 9px 12px;
+  font: 10px "Share Tech Mono";
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.reveal-btn:hover,
+.choice:hover {
+  border-color: var(--red2);
+  color: #ddd;
+}
+
+.hidden-note {
+  display: block;
+  max-height: 0;
+  overflow: hidden;
+  margin-top: 0;
+  padding: 0 14px;
+  border-left: 2px solid transparent;
+  background: #0b0c0c;
+  color: #999;
+  font-size: 12px;
+  line-height: 1.6;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition:
+    max-height .65s cubic-bezier(.22,.61,.36,1),
+    margin-top .4s ease,
+    padding .4s ease,
+    opacity .4s ease,
+    transform .4s ease,
+    border-color .4s ease;
+}
+
+.hidden-note.show {
+  max-height: 900px;
+  margin-top: 15px;
+  padding: 14px;
+  border-left-color: var(--red);
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.creature-description h4 {
+  margin: 0 0 5px;
+  color: #b9bbb6;
+  font: 10px "Share Tech Mono", monospace;
+  letter-spacing: 2px;
+}
+
+.creature-description h4:not(:first-child) {
+  margin-top: 17px;
+}
+
+.creature-description p {
+  margin: 0;
+  color: #777;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.warning {
+  border: 1px solid #542020;
+  background: #140909;
+  padding: 22px;
+}
+
+.warning strong {
+  font: 12px "Share Tech Mono";
+  color: #d65b5b;
+}
+
+.warning p {
+  color: #888;
+  font-size: 13px;
+}
+
+/* =====================================================
+   CREATURE BOOK
+===================================================== */
+
+.creature-book-section {
+  position: relative;
+  min-height: calc(100vh - 76px);
+  padding: 90px 5vw 110px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(70,70,65,.16), transparent 48%),
+    linear-gradient(#090a0a, #0d0f0f 55%, #090a0a);
+}
+
+.creature-book-heading {
+  max-width: 900px;
+  margin: 0 auto 55px;
+  text-align: center;
+}
+
+.creature-book-heading h2 {
+  font: 800 clamp(42px,6vw,78px)/.88 Cinzel, serif;
+  letter-spacing: -3px;
+  margin: 12px 0 22px;
+  color: #ddd;
+}
+
+.creature-book-heading h2 span {
+  color: var(--red2);
+}
+
+.creature-book-heading > p:last-child {
+  color: #70736f;
+  font: 11px "Share Tech Mono", monospace;
+  letter-spacing: 2px;
+}
+
+.creature-book-wrap {
+  position: relative;
+  width: min(1120px, 86vw);
+  margin: 0 auto;
+  perspective: 2600px;
+}
+
+.creature-book {
+  position: relative;
+  width: 100%;
+  height: min(670px, 68vh);
+  perspective: 2600px;
+  animation: bookRise .9s cubic-bezier(.22,.61,.36,1) both;
+}
+
+@keyframes bookRise {
+  from { opacity: 0; transform: translateY(28px) scale(.975); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.book-spread {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  background: #d5c8aa;
+  border: 1px solid rgba(80,60,35,.72);
+  box-shadow:
+    0 45px 100px rgba(0,0,0,.78),
+    0 8px 25px rgba(0,0,0,.5),
+    inset 0 0 60px rgba(50,35,20,.25);
+  transform-style: preserve-3d;
+  transform-origin: center;
+}
+
+.book-spread::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  border: 13px solid rgba(58,39,23,.12);
+  box-shadow: inset 0 0 70px rgba(48,32,18,.24);
+}
+
+.book-spread::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 21;
+  pointer-events: none;
+  opacity: .28;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 4px, rgba(65,43,23,.035) 5px),
+    radial-gradient(ellipse at center, transparent 45%, rgba(58,38,20,.17));
+}
+
+.book-page {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.book-left-page {
+  background:
+    radial-gradient(circle at 25% 18%, rgba(255,255,255,.25), transparent 34%),
+    linear-gradient(135deg, #d9cdb1, #c5b89b);
+  border-right: 1px solid rgba(68,48,28,.32);
+}
+
+.book-right-page {
+  background:
+    radial-gradient(circle at 78% 20%, rgba(255,255,255,.2), transparent 35%),
+    linear-gradient(135deg, #e0d6be, #cfc2a5);
+}
+
+.book-page-inner {
+  position: absolute;
+  inset: 0;
+}
+
+.book-photo-frame {
+  position: absolute;
+  inset: 38px;
+  overflow: hidden;
+  background: #171513;
+  border: 1px solid rgba(61,43,26,.5);
+  box-shadow: 0 12px 28px rgba(42,28,15,.32);
+}
+
+.book-photo-frame img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  filter: sepia(10%) grayscale(10%) contrast(114%) brightness(84%);
+  transform: scale(1.015);
+  transition: opacity .42s ease, transform 1s cubic-bezier(.22,.61,.36,1);
+}
+
+.book-photo-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.04), rgba(0,0,0,.25)),
+    radial-gradient(circle, transparent 45%, rgba(0,0,0,.28));
+}
+
+.book-specimen {
+  position: absolute;
+  left: 22px;
+  bottom: 20px;
+  z-index: 2;
+  color: #ddd2ba;
+  font: 9px "Share Tech Mono", monospace;
+  letter-spacing: 3px;
+  text-shadow: 0 2px 8px #000;
+}
+
+.book-left-caption {
+  position: absolute;
+  left: 40px;
+  right: 40px;
+  bottom: 13px;
+  display: flex;
+  justify-content: space-between;
+  color: #756957;
+  font: 7px "Share Tech Mono", monospace;
+  letter-spacing: 2px;
+}
+
+.book-info-page {
+  padding: 48px 55px 42px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #82745e transparent;
+}
+
+.book-page-topline {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  color: #756957;
+  font: 8px "Share Tech Mono", monospace;
+  letter-spacing: 2px;
+}
+
+.book-page-topline span:first-child {
+  color: #76211d;
+}
+
+.book-info-page h2 {
+  margin: 15px 0 20px;
+  color: #40352b;
+  font: 600 clamp(30px,3.5vw,51px)/1 Cinzel, serif;
+  letter-spacing: -1px;
+}
+
+.book-rule {
+  width: 90px;
+  height: 1px;
+  margin-bottom: 24px;
+  background: #7a241e;
+}
+
+.book-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 32px;
+  row-gap: 19px;
+}
+
+.book-info-block h3 {
+  margin: 0 0 6px;
+  color: #76211d;
+  font: 9px "Share Tech Mono", monospace;
+  letter-spacing: 1.8px;
+}
+
+.book-info-block p {
+  margin: 0;
+  color: #50483d;
+  font-size: 11.5px;
+  line-height: 1.68;
+}
+
+.book-combat-block {
+  grid-column: 1 / -1;
+}
+
+.book-note {
+  margin-top: 20px;
+  padding: 11px 14px;
+  border-left: 2px solid #76211d;
+  background: rgba(80,55,28,.065);
+  color: #5d5141;
+  font: 8px/1.65 "Share Tech Mono", monospace;
+  letter-spacing: 1px;
+}
+
+.book-page-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 22px;
+  color: #766a58;
+  font: 7px "Share Tech Mono", monospace;
+  letter-spacing: 2px;
+}
+
+.book-page-footer span:first-child {
+  color: #76211d;
+}
+
+.book-spine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 13px;
+  z-index: 30;
+  transform: translateX(-50%);
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(49,32,17,.3), rgba(255,255,255,.13), rgba(49,32,17,.3));
+  box-shadow: 0 0 18px rgba(40,25,15,.25);
+}
+
+.book-paper-edge {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  z-index: 31;
+  transform: translateX(-50%);
+  background: rgba(45,29,16,.2);
+  pointer-events: none;
+}
+
+/* Physical page-turn effect */
+.book-spread.turn-next {
+  animation: pageFlipNext .95s cubic-bezier(.18,.72,.2,1) both;
+}
+
+.book-spread.turn-prev {
+  animation: pageFlipPrev .95s cubic-bezier(.18,.72,.2,1) both;
+}
+
+@keyframes pageFlipNext {
+  0% { transform: rotateY(0deg) scale(1); filter: brightness(1); }
+  32% { transform: rotateY(-12deg) scale(.992); filter: brightness(.92); }
+  52% { transform: rotateY(0deg) scale(.985); filter: brightness(.82); }
+  72% { transform: rotateY(8deg) scale(.992); filter: brightness(.93); }
+  100% { transform: rotateY(0deg) scale(1); filter: brightness(1); }
+}
+
+@keyframes pageFlipPrev {
+  0% { transform: rotateY(0deg) scale(1); filter: brightness(1); }
+  32% { transform: rotateY(12deg) scale(.992); filter: brightness(.92); }
+  52% { transform: rotateY(0deg) scale(.985); filter: brightness(.82); }
+  72% { transform: rotateY(-8deg) scale(.992); filter: brightness(.93); }
+  100% { transform: rotateY(0deg) scale(1); filter: brightness(1); }
+}
+
+.book-info-page.content-changing {
+  animation: bookContentFade .72s cubic-bezier(.22,.61,.36,1) both;
+}
+
+@keyframes bookContentFade {
+  0% { opacity: .15; transform: translateX(12px); }
+  48% { opacity: .55; }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+.book-control {
+  position: absolute;
+  top: 50%;
+  z-index: 50;
+  width: 55px;
+  height: 80px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 1px solid rgba(210,200,180,.32);
+  background: rgba(7,8,8,.8);
+  color: #aaa;
+  cursor: pointer;
+  transition: .3s ease;
+}
+
+.book-control span {
+  font: 34px Georgia, serif;
+  line-height: 1;
+}
+
+.book-control small {
+  font: 8px "Share Tech Mono", monospace;
+  letter-spacing: 1.5px;
+}
+
+.book-control:hover {
+  color: #fff;
+  border-color: var(--red2);
+  background: rgba(70,10,10,.82);
+}
+
+.book-control:active {
+  transform: translateY(-50%) scale(.95);
+}
+
+.book-control:disabled {
+  opacity: .18;
+  pointer-events: none;
+}
+
+.book-prev { left: -72px; }
+.book-next { right: -72px; }
+
+.book-counter {
+  position: absolute;
+  left: 50%;
+  bottom: -38px;
+  transform: translateX(-50%);
+  color: #777;
+  font: 9px "Share Tech Mono", monospace;
+  letter-spacing: 4px;
+}
+
+.book-hint {
+  margin: 62px 0 0;
+  text-align: center;
+  color: #555;
+  font: 8px "Share Tech Mono", monospace;
+  letter-spacing: 2px;
+}
+
+@media (max-width: 900px) {
+  .creature-book-section { padding: 75px 4vw 90px; }
+  .creature-book-wrap { width: 92vw; }
+  .creature-book { height: 650px; }
+  .book-info-page { padding: 38px 32px 35px; }
+  .book-control { width: 45px; height: 65px; }
+  .book-prev { left: 8px; }
+  .book-next { right: 8px; }
+}
+
+@media (max-width: 650px) {
+  .creature-book-section { padding: 60px 15px 75px; }
+  .creature-book-heading { margin-bottom: 35px; }
+  .creature-book { height: 680px; }
+  .book-spread { grid-template-columns: 1fr; grid-template-rows: 43% 57%; }
+  .book-left-page { border-right: 0; border-bottom: 1px solid rgba(68,48,28,.32); }
+  .book-photo-frame { inset: 20px; }
+  .book-left-caption { left: 23px; right: 23px; bottom: 7px; }
+  .book-specimen { left: 10px; bottom: 10px; }
+  .book-spine, .book-paper-edge { display: none; }
+  .book-info-page { padding: 24px 22px 30px; }
+  .book-info-page h2 { font-size: 28px; margin-bottom: 15px; }
+  .book-info-grid { grid-template-columns: 1fr; gap: 14px; }
+  .book-combat-block { grid-column: auto; }
+  .book-info-block p { font-size: 10.5px; line-height: 1.58; }
+  .book-note { margin-top: 14px; }
+  .book-control { top: 20%; width: 42px; height: 54px; }
+  .book-control small { display: none; }
+  .book-control span { font-size: 27px; }
+  .book-prev { left: 4px; }
+  .book-next { right: 4px; }
+  .book-counter { bottom: -28px; }
+  .book-hint { line-height: 1.6; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .creature-book, .book-spread, .book-info-page, .book-photo-frame img { animation: none !important; transition: none !important; }
+}
+
+.world-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--line);
+}
+
+.world-card {
+  min-height: 270px;
+  padding: 35px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+
+.world-card h2 {
+  font: 600 30px Cinzel;
+  margin: 25px 0 12px;
+}
+
+.world-card p {
+  max-width: 600px;
+  color: #888;
+  line-height: 1.7;
+}
+
+.ending-tree {
+  position: relative;
+  padding: 140px 5vw 160px;
+  overflow: hidden;
+}
+
+.tree-heading {
+  max-width: 900px;
+  margin: 0 auto 70px;
+  text-align: center;
+}
+
+.tree-heading h2 {
+  font: 800 clamp(50px,7vw,100px)/.85 Cinzel, serif;
+  letter-spacing: -4px;
+  margin: 15px 0 30px;
+}
+
+.tree-heading h2 span {
+  color: var(--red2);
+}
+
+.tree-heading > p:last-child {
+  max-width: 600px;
+  margin: 0 auto;
+  color: #777;
+  line-height: 1.7;
+}
+
+.tree-container {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.tree-status {
+  border: 1px solid var(--line);
+  background: rgba(5,6,6,.75);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  font-family: "Share Tech Mono", monospace;
+}
+
+.tree-status-label {
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: #555;
+}
+
+.tree-status strong {
+  color: var(--red2);
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.decision-tree {
+  position: relative;
+}
+
+.tree-node {
+  position: relative;
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  border: 1px solid var(--line);
+  background: linear-gradient(145deg, rgba(35,39,38,.95), rgba(7,8,8,.95));
+  padding: 30px;
+  opacity: .90;
+  transform: translateY(20px) scale(.98);
+  transition: opacity .6s ease, transform .6s ease, border-color .6s ease, box-shadow .6s ease;
+}
+
+.tree-node.active-node,
+.tree-node.tree-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  border-color: #4a4c4b;
+  box-shadow: 0 20px 70px rgba(0,0,0,.35);
+}
+
+.node-number {
+  font: 10px "Share Tech Mono", monospace;
+  color: var(--red2);
+  letter-spacing: 2px;
+}
+
+.node-label {
+  display: block;
+  font: 9px "Share Tech Mono", monospace;
+  letter-spacing: 4px;
+  color: #777;
+  margin-bottom: 12px;
+}
+
+.node-content h3 {
+  font: 28px Cinzel, serif;
+  color: #ddd;
+  margin: 0 0 12px;
+}
+
+.node-content p {
+  color: #777;
+  line-height: 1.7;
+  max-width: 600px;
+  margin: 0;
+}
+
+.tree-line {
+  width: 1px;
+  height: 55px;
+  margin: 0 auto;
+  background: linear-gradient(to bottom, var(--red2), rgba(167,25,25,.05));
+  opacity: .6;
+}
+
+.tree-choices {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 18px;
+  margin: 0 0 30px;
+}
+
+.tree-choice {
+  position: relative;
+  min-height: 105px;
+  display: grid;
+  grid-template-columns: 40px 1fr 25px;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  text-align: left;
+  color: #aaa;
+  background: rgba(8,9,9,.97);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: transform .35s ease, border-color .35s ease, background .35s ease, color .35s ease, box-shadow .35s ease;
+}
+
+.tree-choice:hover {
+  transform: translateY(-5px);
+  border-color: rgba(167,25,25,.7);
+  background: rgba(30,12,12,.97);
+  color: #eee;
+  box-shadow: 0 15px 40px rgba(0,0,0,.35);
+}
+
+.tree-choice:active {
+  transform: translateY(-2px) scale(.98);
+}
+
+.tree-choice.selected {
+  border-color: var(--red2);
+  background: rgba(70,10,10,.9);
+}
+
+.choice-number {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #333;
+  color: var(--red2);
+  font: 10px "Share Tech Mono", monospace;
+}
+
+.choice-text {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.choice-text strong {
+  font: 16px Cinzel, serif;
+  color: #ccc;
+}
+
+.choice-text small {
+  font: 10px "Share Tech Mono", monospace;
+  line-height: 1.5;
+  color: #666;
+}
+
+.choice-arrow {
+  color: var(--red2);
+  font-size: 18px;
+  transition: transform .3s ease;
+}
+
+.tree-choice:hover .choice-arrow {
+  transform: translateX(5px);
+}
+
+.tree-branch,
+.tree-result,
+#node-dark-maria,
+#choices-dark-maria {
+  display: none;
+}
+
+.tree-branch.tree-visible,
+.tree-result.tree-visible,
+#node-dark-maria.tree-visible,
+#choices-dark-maria.tree-visible {
+  display: block;
+  animation: branchReveal .75s cubic-bezier(.22,.61,.36,1) both;
+}
+
+@keyframes branchReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(45px) scale(.97);
+    filter: blur(6px);
+  }
+  60% {
+    opacity: .75;
+    filter: blur(1px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.tree-connector {
+  width: 1px;
+  height: 55px;
+  margin: 0 auto;
+  background: linear-gradient(to bottom, var(--red2), rgba(167,25,25,0));
+}
+
+.tree-result {
+  border: 1px solid rgba(167,25,25,.55);
+  background: radial-gradient(circle at center, rgba(75,15,15,.35), rgba(5,6,6,.98));
+  padding: 55px 40px;
+  text-align: center;
+  box-shadow: 0 0 80px rgba(0,0,0,.45);
+}
+
+.result-number {
+  display: block;
+  color: var(--red2);
+  font: 10px "Share Tech Mono", monospace;
+  letter-spacing: 4px;
+  margin-bottom: 12px;
+}
+
+.result-label {
+  display: block;
+  color: #555;
+  font: 8px "Share Tech Mono", monospace;
+  letter-spacing: 4px;
+  margin-bottom: 20px;
+}
+
+.tree-result h3 {
+  font: 800 clamp(50px,7vw,90px)/.9 Cinzel, serif;
+  color: #ddd;
+  margin: 0 0 20px;
+}
+
+.tree-result p {
+  max-width: 500px;
+  margin: 0 auto;
+  color: #777;
+  line-height: 1.7;
+}
+
+.tree-reset {
+  display: block;
+  margin: 45px auto 0;
+  padding: 12px 22px;
+  background: transparent;
+  border: 1px solid #2d2f2e;
+  color: #555;
+  font: 9px "Share Tech Mono", monospace;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: all .3s ease;
+}
+
+.tree-reset:hover {
+  color: #aaa;
+  border-color: #555;
+}
+
+.sound-container {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.sound-toggle {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  height: 38px;
+  padding: 0 14px;
+  background: rgba(8,9,9,.92);
+  border: 1px solid #303332;
+  color: #999;
+  font: 9px "Share Tech Mono", monospace;
+  letter-spacing: 2px;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: border-color .25s ease, color .25s ease, background .25s ease;
+}
+
+.sound-toggle:hover {
+  color: #eee;
+  border-color: var(--red2);
+  background: rgba(15,8,8,.95);
+}
+
+.sound-icon {
+  color: var(--red2);
+  font-size: 14px;
+}
+
+.music-player {
+  position: absolute;
+  right: 0;
+  bottom: 46px;
+  width: 225px;
+  padding: 16px;
+  background: rgba(8,9,9,.96);
+  border: 1px solid #303332;
+  box-shadow: 0 0 30px rgba(0,0,0,.55);
+  backdrop-filter: blur(12px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity .25s ease, transform .25s ease, visibility .25s ease;
+}
+
+.sound-container.open .music-player {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.music-title {
+  margin-bottom: 12px;
+}
+
+.music-status {
+  display: block;
+  font: 8px "Share Tech Mono", monospace;
+  letter-spacing: 3px;
+  color: #777;
+  margin-bottom: 6px;
+}
+
+.music-title strong {
+  display: block;
+  font: 10px "Share Tech Mono", monospace;
+  letter-spacing: 1px;
+  color: #bbb;
+}
+
+.music-controls {
+  display: grid;
+  grid-template-columns: 35px 1fr 35px;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.music-controls button {
+  background: transparent;
+  border: 1px solid #383b3a;
+  color: #aaa;
+  height: 30px;
+  font: 9px "Share Tech Mono";
+  cursor: pointer;
+}
+
+.music-controls button:hover {
+  border-color: var(--red2);
+  color: #fff;
+}
+
+.track-list {
+  display: grid;
+  gap: 2px;
+}
+
+.track-button {
+  width: 100%;
+  text-align: left;
+  padding: 7px 8px;
+  background: transparent;
+  border: 0;
+  color: #666;
+  font: 8px "Share Tech Mono", monospace;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.track-button:hover {
+  color: #aaa;
+}
+
+.track-button.active {
+  color: #ddd;
+  background: rgba(157,23,23,.25);
+  border-left: 2px solid var(--red2);
+}
+
+@media (max-width: 800px) {
+  .nav {
+    display: none;
+    position: absolute;
+    top: 76px;
+    left: 0;
+    right: 0;
+    background: #080909;
+    padding: 25px;
+    flex-direction: column;
+  }
+
+  .nav.open {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .hero {
+    padding: 130px 7vw;
+  }
+
+  .location-card {
+    display: none;
+  }
+
+  .intro {
+    grid-template-columns: 1fr;
+  }
+
+  .card-grid,
+  .character-grid,
+  .creature-grid,
+  .world-grid,
+  .tree-choices {
+    grid-template-columns: 1fr;
+  }
+
+  .character-card,
+  .creature-card {
+    grid-template-columns: 120px 1fr;
+  }
+
+  .character-photo,
+  .creature-photo {
+    width: 120px;
+    min-height: 280px;
+  }
+
+  .character-photo img,
+  .creature-photo img {
+    width: 120px;
+    min-height: 280px;
+  }
+
+  .character-info {
+    padding: 22px;
+  }
+
+  .character-info h2 {
+    font-size: 21px;
+  }
+
+  .page-hero {
+    padding: 120px 7vw 70px;
+  }
+
+  .section {
+    padding: 80px 7vw;
+  }
+
+  .tree-node {
+    grid-template-columns: 45px 1fr;
+    padding: 22px;
+  }
+
+  .tree-result {
+    padding: 45px 25px;
+  }
+
+  footer {
+    flex-direction: column;
+  }
+
+  .sound-container {
+    right: 12px;
+    bottom: 12px;
+  }
+}
+/* =========================================================
+   CREATURE LIST
+========================================================= */
+
+.creatures-page {
+  min-height: 100vh;
+  padding: 120px 7vw 80px;
+  position: relative;
+}
+
+.creatures-heading {
+  max-width: 800px;
+  margin-bottom: 35px;
+}
+
+.creatures-number {
+  color: var(--red2);
+  font: 12px "Share Tech Mono", monospace;
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+}
+
+.creatures-heading h1 {
+  margin: 0 0 15px;
+  color: #c9c9c3;
+  font: 600 clamp(35px, 5vw, 58px) Cinzel, serif;
+  letter-spacing: 2px;
+}
+
+.creatures-heading p {
+  color: #777b76;
+  font: 13px/1.8 "Share Tech Mono", monospace;
+}
+
+
+/* =========================================================
+   CREATURE LIST
+========================================================= */
+
+.creature-list {
+  width: min(850px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.creature-item {
+  width: 100%;
+  min-height: 105px;
+  display: grid;
+  grid-template-columns: 170px 1fr 120px;
+  align-items: center;
+  padding: 0;
+  border: 1px solid #282b2a;
+  background: rgba(12, 14, 14, .82);
+  color: #aaa;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    transform .35s ease,
+    border-color .35s ease,
+    background .35s ease;
+}
+
+.creature-item:hover {
+  transform: translateX(8px);
+  border-color: #671919;
+  background: rgba(28, 14, 14, .9);
+}
+
+.creature-item img {
+  width: 170px;
+  height: 105px;
+  object-fit: cover;
+  display: block;
+  filter:
+    grayscale(20%)
+    contrast(115%)
+    brightness(.72);
+  transition:
+    transform .6s ease,
+    filter .5s ease;
+}
+
+.creature-item:hover img {
+  transform: scale(1.06);
+  filter:
+    grayscale(0%)
+    contrast(115%)
+    brightness(.85);
+}
+
+.creature-item-info {
+  padding: 20px 25px;
+}
+
+.creature-item-info h2 {
+  margin: 0 0 8px;
+  color: #b9b9b3;
+  font: 500 23px Cinzel, serif;
+}
+
+.creature-item-info p {
+  margin: 0;
+  max-width: 450px;
+  color: #70746f;
+  font: 11px/1.6 "Share Tech Mono", monospace;
+}
+
+.creature-open {
+  justify-self: center;
+  color: #9d2525;
+  font: 10px "Share Tech Mono", monospace;
+  letter-spacing: 2px;
+  transition: color .3s ease;
+}
+
+.creature-item:hover .creature-open {
+  color: #df3939;
+}
+
+
+/* =========================================================
+   CREATURE FOOTER
+========================================================= */
+
+.creatures-footer {
+  width: min(850px, 100%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 35px;
+  padding-top: 20px;
+  border-top: 1px solid #3b1a1a;
+  color: #656863;
+  font: 11px "Share Tech Mono", monospace;
+}
+
+.creatures-footer strong {
+  color: #b52a2a;
+  letter-spacing: 2px;
+}
+
+
+/* =========================================================
+   BOOK POPUP OVERLAY
+========================================================= */
+
+.creature-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity .45s ease,
+    visibility .45s ease;
+}
+
+.creature-modal.open {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+/* =========================================================
+   DARK BACKDROP
+========================================================= */
+
+.creature-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(20,20,18,.45),
+      rgba(0,0,0,.88)
+    );
+  backdrop-filter: blur(5px);
+}
+
+
+/* =========================================================
+   BOOK
+========================================================= */
+
+.creature-book {
+  position: relative;
+  width: min(1100px, 86vw);
+  height: min(700px, 78vh);
+  z-index: 2;
+  perspective: 1800px;
+  transform:
+    translateY(35px)
+    scale(.92)
+    rotateX(3deg);
+  opacity: 0;
+  transition:
+    transform .7s cubic-bezier(.22,.61,.36,1),
+    opacity .5s ease;
+}
+
+.creature-modal.open .creature-book {
+  transform:
+    translateY(0)
+    scale(1)
+    rotateX(0);
+  opacity: 1;
+}
+
+
+/* =========================================================
+   BOOK BODY
+========================================================= */
+
+.creature-book-inner {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      90deg,
+      #a99475 0%,
+      #d8c8aa 3%,
+      #e3d5bb 47%,
+      #81745f 50%,
+      #e0d1b6 53%,
+      #d2c0a0 97%,
+      #8d785d 100%
+    );
+
+  border: 1px solid #574731;
+
+  box-shadow:
+    0 35px 100px rgba(0,0,0,.9),
+    0 8px 25px rgba(0,0,0,.7),
+    inset 0 0 70px rgba(55,35,20,.25);
+
+  transition:
+    transform .8s cubic-bezier(.22,.61,.36,1);
+}
+
+
+/* paper texture */
+
+.creature-book-inner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  opacity: .3;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 4px,
+      rgba(70,45,25,.035) 5px
+    ),
+    radial-gradient(
+      ellipse at center,
+      transparent 45%,
+      rgba(50,30,15,.2)
+    );
+}
+
+
+/* =========================================================
+   LEFT PAGE
+========================================================= */
+
+.creature-book-left {
+  position: relative;
+  padding: 42px;
+  background:
+    radial-gradient(
+      circle at 25% 20%,
+      rgba(255,255,255,.15),
+      transparent 40%
+    ),
+    linear-gradient(
+      135deg,
+      #d8c9ac,
+      #c3b294
+    );
+  border-right: 1px solid rgba(70,50,30,.35);
+}
+
+
+/* =========================================================
+   PHOTO
+========================================================= */
+
+.book-photo-frame {
+  width: 100%;
+  height: calc(100% - 40px);
+  padding: 12px;
+  background: #b9aa8e;
+  border: 1px solid #75654e;
+
+  box-shadow:
+    0 12px 25px rgba(40,25,15,.35),
+    inset 0 0 10px rgba(40,25,15,.25);
+
+  transform: rotate(-1deg);
+  overflow: hidden;
+}
+
+.book-photo-frame img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+
+  filter:
+    contrast(110%)
+    brightness(.82)
+    sepia(10%);
+
+  transition:
+    opacity .4s ease,
+    transform .8s ease;
+}
+
+
+/* =========================================================
+   SPECIMEN
+========================================================= */
+
+.book-specimen {
+  position: absolute;
+  left: 45px;
+  bottom: 28px;
+
+  color: #584c3d;
+
+  font:
+    10px
+    "Share Tech Mono",
+    monospace;
+
+  letter-spacing: 3px;
+}
+
+
+/* =========================================================
+   RIGHT PAGE
+========================================================= */
+
+.creature-book-right {
+  position: relative;
+  padding: 55px 55px 45px;
+  overflow-y: auto;
+
+  background:
+    radial-gradient(
+      circle at 70% 15%,
+      rgba(255,255,255,.18),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #e0d2b8,
+      #cfc0a2
+    );
+
+  color: #493e31;
+}
+
+
+/* =========================================================
+   BOOK HEADER
+========================================================= */
+
+.book-category {
+  margin-bottom: 12px;
+
+  color: #7c211d;
+
+  font:
+    9px
+    "Share Tech Mono",
+    monospace;
+
+  letter-spacing: 3px;
+}
+
+.creature-book-right h2 {
+  margin: 0 0 12px;
+
+  color: #67201b;
+
+  font:
+    600
+    clamp(30px, 3.5vw, 52px)
+    Cinzel,
+    serif;
+
+  line-height: 1;
+}
+
+.book-quote {
+  margin: 0 0 25px;
+
+  color: #65594b;
+
+  font:
+    italic 12px Georgia, serif;
+}
+
+.book-introduction {
+  max-width: 600px;
+  margin: 0;
+
+  color: #4f473d;
+
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.book-line {
+  height: 1px;
+  margin: 25px 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #7d2a24,
+      transparent
+    );
+}
+
+
+/* =========================================================
+   INFORMATION GRID
+========================================================= */
+
+.book-information-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid rgba(70,50,30,.2);
+  border-left: 1px solid rgba(70,50,30,.12);
+}
+
+.book-information {
+  min-height: 115px;
+  padding: 17px 18px;
+  border-right: 1px solid rgba(70,50,30,.16);
+  border-bottom: 1px solid rgba(70,50,30,.16);
+}
+
+.book-information h3 {
+  margin: 0 0 8px;
+
+  color: #74231d;
+
+  font:
+    10px
+    "Share Tech Mono",
+    monospace;
+
+  letter-spacing: 1.5px;
+}
+
+.book-information p {
+  margin: 0;
+
+  color: #554b3e;
+
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+
+/* =========================================================
+   NOTE
+========================================================= */
+
+.book-note {
+  margin-top: 18px;
+  padding: 12px 15px;
+
+  border-left: 2px solid #7b231d;
+
+  background: rgba(80,55,30,.06);
+
+  color: #5b5042;
+
+  font:
+    10px/1.6
+    "Share Tech Mono",
+    monospace;
+}
+
+
+/* =========================================================
+   PAGE NUMBER
+========================================================= */
+
+.book-page-number {
+  margin-top: 18px;
+
+  color: #766957;
+
+  text-align: right;
+
+  font:
+    8px
+    "Share Tech Mono",
+    monospace;
+
+  letter-spacing: 3px;
+}
+
+
+/* =========================================================
+   BOOK CLOSE
+========================================================= */
+
+.creature-book-close {
+  position: absolute;
+  right: -48px;
+  top: -48px;
+
+  z-index: 30;
+
+  width: 42px;
+  height: 42px;
+
+  border: 1px solid rgba(210,200,180,.35);
+
+  background: rgba(8,8,8,.8);
+
+  color: #bbb;
+
+  font:
+    32px Georgia, serif;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    color .3s ease,
+    border-color .3s ease,
+    transform .3s ease;
+}
+
+.creature-book-close:hover {
+  color: #fff;
+  border-color: #9d1717;
+  transform: rotate(90deg);
+}
+
+
+/* =========================================================
+   BOOK ARROWS
+========================================================= */
+
+.creature-book-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 30;
+
+  width: 48px;
+  height: 70px;
+
+  transform: translateY(-50%);
+
+  border: 1px solid rgba(210,200,180,.3);
+
+  background: rgba(8,8,8,.78);
+
+  color: #aaa;
+
+  font:
+    45px Georgia, serif;
+
+  cursor: pointer;
+
+  transition:
+    background .3s ease,
+    color .3s ease,
+    border-color .3s ease,
+    transform .3s ease;
+}
+
+.creature-book-arrow:hover {
+  color: #fff;
+  background: rgba(65,12,12,.9);
+  border-color: #9d1717;
+}
+
+.creature-book-arrow:active {
+  transform:
+    translateY(-50%)
+    scale(.92);
+}
+
+.creature-book-prev {
+  left: -65px;
+}
+
+.creature-book-next {
+  right: -65px;
+}
+
+
+/* =========================================================
+   COUNTER
+========================================================= */
+
+.creature-book-counter {
+  position: absolute;
+
+  left: 50%;
+  bottom: -38px;
+
+  transform: translateX(-50%);
+
+  color: #aaa;
+
+  font:
+    10px
+    "Share Tech Mono",
+    monospace;
+
+  letter-spacing: 4px;
+}
+
+.creature-book-counter::first-letter {
+  color: #b32929;
+}
+
+
+/* =========================================================
+   PAGE TURN
+========================================================= */
+
+.creature-book-inner.page-next {
+  animation:
+    bookPageNext
+    .8s
+    cubic-bezier(.22,.61,.36,1);
+}
+
+.creature-book-inner.page-prev {
+  animation:
+    bookPagePrev
+    .8s
+    cubic-bezier(.22,.61,.36,1);
+}
+
+@keyframes bookPageNext {
+
+  0% {
+    transform:
+      perspective(1800px)
+      rotateY(0);
+  }
+
+  45% {
+    transform:
+      perspective(1800px)
+      rotateY(-8deg)
+      translateX(-15px);
+  }
+
+  100% {
+    transform:
+      perspective(1800px)
+      rotateY(0);
+  }
+
+}
+
+@keyframes bookPagePrev {
+
+  0% {
+    transform:
+      perspective(1800px)
+      rotateY(0);
+  }
+
+  45% {
+    transform:
+      perspective(1800px)
+      rotateY(8deg)
+      translateX(15px);
+  }
+
+  100% {
+    transform:
+      perspective(1800px)
+      rotateY(0);
+  }
+
+}
+
+
+/* =========================================================
+   CONTENT CHANGE
+========================================================= */
+
+.book-content-changing {
+  animation:
+    bookContentChange
+    .65s
+    ease;
+}
+
+@keyframes bookContentChange {
+
+  0% {
+    opacity: .1;
+    transform: translateY(8px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .creature-modal {
+    padding: 40px 20px;
+  }
+
+  .creature-book {
+    width: 92vw;
+    height: 78vh;
+  }
+
+  .creature-book-left {
+    padding: 25px;
+  }
+
+  .creature-book-right {
+    padding: 35px 25px;
+  }
+
+  .creature-book-arrow {
+    width: 42px;
+    height: 58px;
+  }
+
+  .creature-book-prev {
+    left: -15px;
+  }
+
+  .creature-book-next {
+    right: -15px;
+  }
+
+  .creature-book-close {
+    right: 0;
+    top: -48px;
+  }
+
+}
+
+
+@media (max-width: 650px) {
+
+  .creatures-page {
+    padding: 100px 6vw 70px;
+  }
+
+  .creature-item {
+    grid-template-columns: 90px 1fr;
+  }
+
+  .creature-item img {
+    width: 90px;
+    height: 100px;
+  }
+
+  .creature-item-info {
+    padding: 15px;
+  }
+
+  .creature-item-info h2 {
+    font-size: 16px;
+  }
+
+  .creature-open {
+    display: none;
+  }
+
+  .creature-book {
+    height: 82vh;
+  }
+
+  .creature-book-inner {
+    grid-template-columns: 1fr;
+    grid-template-rows: 43% 57%;
+  }
+
+  .creature-book-left {
+    border-right: none;
+    border-bottom: 1px solid rgba(70,50,30,.3);
+  }
+
+  .book-photo-frame {
+    height: 100%;
+  }
+
+  .book-information-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .creature-book-right {
+    padding: 25px;
+  }
+
+}
+
+/* =========================================================
+   CREATURE DOSSIER POPUP — GENERATED ART
+========================================================= */
+.creature-item { cursor:pointer; }
+.creature-item:focus-visible { outline:1px solid var(--red2); outline-offset:2px; }
+.creature-item img { object-position:center; }
+.creature-modal { position:fixed; inset:0; z-index:140; display:flex; align-items:center; justify-content:center; visibility:hidden; opacity:0; pointer-events:none; transition:opacity .55s ease, visibility .55s ease; }
+.creature-modal.open { visibility:visible; opacity:1; pointer-events:auto; }
+.creature-modal-backdrop { position:absolute; inset:0; background:rgba(0,0,0,.42); backdrop-filter:blur(3px); }
+.creature-book { position:relative; z-index:2; width:min(720px,48vw); aspect-ratio:1/1; transform:translateX(34px) scale(.86) rotate(.35deg); opacity:0; transition:transform .8s cubic-bezier(.22,.61,.36,1), opacity .5s ease; }
+.creature-modal.open .creature-book { transform:translateX(0) scale(1) rotate(.35deg); opacity:1; }
+.creature-dossier-stage { position:absolute; inset:0; overflow:hidden; border-radius:1.7% 1.1% 2.2% 1.4%; box-shadow:0 45px 90px rgba(0,0,0,.78),0 12px 25px rgba(0,0,0,.5); }
+.creature-dossier-image { width:100%; height:100%; display:block; object-fit:cover; filter:saturate(.92) contrast(1.04); transform:scale(1.002); transition:opacity .22s ease, transform .75s cubic-bezier(.22,.61,.36,1); }
+.creature-dossier-image.image-changing { opacity:.08; transform:scale(1.025); }
+.creature-book-arrow { position:absolute; top:50%; z-index:5; width:52px; height:78px; transform:translateY(-50%); border:1px solid rgba(190,185,170,.28); background:rgba(6,7,7,.7); color:#aaa; font:47px Georgia,serif; line-height:1; cursor:pointer; transition:background .3s ease,color .3s ease,border-color .3s ease,transform .3s ease; }
+.creature-book-prev { left:-74px; }
+.creature-book-next { right:-74px; }
+.creature-book-arrow:hover { color:#fff; background:rgba(76,14,14,.82); border-color:var(--red2); }
+.creature-book-arrow:active { transform:translateY(-50%) scale(.93); }
+.creature-book-arrow:disabled { opacity:.2; pointer-events:none; }
+.creature-book-close { position:absolute; top:7px; right:3px; z-index:6; width:42px; height:42px; border:0; background:transparent; color:#27231d; font:32px Georgia,serif; cursor:pointer; transition:transform .3s ease,color .3s ease; }
+.creature-book-close:hover { color:#7d1717; transform:rotate(90deg); }
+.creature-book-counter { position:absolute; left:50%; bottom:-30px; transform:translateX(-50%); color:#aaa; font:9px "Share Tech Mono",monospace; letter-spacing:4px; white-space:nowrap; }
+.creature-book.page-next .creature-dossier-stage { animation:dossierTurnNext .72s cubic-bezier(.18,.72,.2,1) both; }
+.creature-book.page-prev .creature-dossier-stage { animation:dossierTurnPrev .72s cubic-bezier(.18,.72,.2,1) both; }
+@keyframes dossierTurnNext { 0%{transform:rotateY(0) translateX(0) scale(1);filter:brightness(1)} 35%{transform:rotateY(-13deg) translateX(-12px) scale(.985);filter:brightness(.9)} 55%{transform:rotateY(1deg) translateX(5px) scale(.975);filter:brightness(.78)} 100%{transform:rotateY(0) translateX(0) scale(1);filter:brightness(1)} }
+@keyframes dossierTurnPrev { 0%{transform:rotateY(0) translateX(0) scale(1);filter:brightness(1)} 35%{transform:rotateY(13deg) translateX(12px) scale(.985);filter:brightness(.9)} 55%{transform:rotateY(-1deg) translateX(-5px) scale(.975);filter:brightness(.78)} 100%{transform:rotateY(0) translateX(0) scale(1);filter:brightness(1)} }
+body.creature-book-open { overflow:hidden; }
+@media(max-width:900px){ .creature-book{width:min(760px,78vw);} .creature-book-prev{left:-12px}.creature-book-next{right:-12px}.creature-book-close{right:2px} }
+@media(max-width:650px){ .creature-book{width:88vw}.creature-book-arrow{width:42px;height:60px;font-size:38px}.creature-book-prev{left:3px}.creature-book-next{right:3px}.creature-book-close{top:2px;right:0;color:#222} }
+/* =========================================================
+   SILENT HILL 2 — CODED CREATURE DOSSIER
+   ========================================================= */
+
+.coded-dossier {
+
+  position: absolute;
+
+  inset: 0;
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      135deg,
+      #d8c8a9,
+      #c6b594
+    );
+
+  border: 1px solid rgba(65,45,25,.75);
+
+  box-shadow:
+    0 40px 90px rgba(0,0,0,.8),
+    0 10px 25px rgba(0,0,0,.55),
+    inset 0 0 55px rgba(55,35,15,.3);
+
+  transform-style: preserve-3d;
+
+}
+
+
+/* =========================================================
+   PAPER
+   ========================================================= */
+
+.dossier-page {
+
+  position: relative;
+
+  overflow: hidden;
+
+  min-width: 0;
+
+}
+
+
+.dossier-left {
+
+  border-right:
+    1px solid rgba(70,48,28,.35);
+
+  background:
+    radial-gradient(
+      circle at 20% 15%,
+      rgba(255,255,255,.22),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(75,48,20,.1),
+      transparent 40%
+    ),
+    linear-gradient(
+      135deg,
+      #d9cdb1,
+      #c2b18f
+    );
+
+}
+
+
+.dossier-right {
+
+  background:
+    radial-gradient(
+      circle at 80% 15%,
+      rgba(255,255,255,.28),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 10% 90%,
+      rgba(65,40,18,.1),
+      transparent 45%
+    ),
+    linear-gradient(
+      135deg,
+      #e0d5ba,
+      #cbbb9a
+    );
+
+}
+
+
+/* =========================================================
+   PAPER TEXTURE
+   ========================================================= */
+
+.paper-noise {
+
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  z-index: 20;
+
+  opacity: .3;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 4px,
+      rgba(70,45,22,.035) 5px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 6px,
+      rgba(70,45,22,.025) 7px
+    ),
+    radial-gradient(
+      ellipse at center,
+      transparent 45%,
+      rgba(50,32,15,.2)
+    );
+
+}
+
+
+/* =========================================================
+   LEFT PAGE
+   ========================================================= */
+
+.dossier-photo {
+
+  position: absolute;
+
+  top: 38px;
+  left: 38px;
+  right: 38px;
+  bottom: 48px;
+
+  overflow: hidden;
+
+  background: #171513;
+
+  border:
+    1px solid rgba(65,43,25,.55);
+
+  box-shadow:
+    0 12px 28px rgba(40,28,15,.38),
+    inset 0 0 30px rgba(0,0,0,.25);
+
+}
+
+
+.dossier-photo img {
+
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  object-position: center;
+
+  filter:
+    sepia(10%)
+    grayscale(10%)
+    contrast(114%)
+    brightness(84%);
+
+  transform: scale(1.015);
+
+  transition:
+    opacity .35s ease,
+    transform .8s cubic-bezier(.22,.61,.36,1);
+
+}
+
+
+.dossier-photo img.image-changing {
+
+  opacity: .05;
+
+  transform: scale(1.04);
+
+}
+
+
+.photo-vignette {
+
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,0,0,.05),
+      rgba(0,0,0,.2)
+    ),
+    radial-gradient(
+      circle,
+      transparent 42%,
+      rgba(0,0,0,.35)
+    );
+
+}
+
+
+/* =========================================================
+   PAPER CLIP
+   ========================================================= */
+
+.paperclip {
+
+  position: absolute;
+
+  z-index: 30;
+
+  top: 18px;
+  left: 68px;
+
+  font-family: Georgia, serif;
+
+  font-size: 62px;
+
+  color: #563b29;
+
+  transform:
+    rotate(-12deg);
+
+  opacity: .9;
+
+  text-shadow:
+    1px 2px 2px rgba(0,0,0,.25);
+
+}
+
+
+/* =========================================================
+   SPECIMEN
+   ========================================================= */
+
+.specimen-label {
+
+  position: absolute;
+
+  z-index: 30;
+
+  left: 20px;
+
+  bottom: 16px;
+
+  font:
+    8px "Share Tech Mono",
+    monospace;
+
+  letter-spacing: 2px;
+
+  color: #665844;
+
+}
+
+
+/* =========================================================
+   LEFT FOOTER
+   ========================================================= */
+
+.left-page-footer {
+
+  position: absolute;
+
+  left: 40px;
+  right: 40px;
+
+  bottom: 13px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 10px;
+
+  color: #766a58;
+
+  font:
+    7px "Share Tech Mono",
+    monospace;
+
+  letter-spacing: 1.5px;
+
+}
+
+
+/* =========================================================
+   RIGHT PAGE
+   ========================================================= */
+
+.dossier-right {
+
+  padding:
+    42px
+    48px
+    30px;
+
+  overflow-y: auto;
+
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    #82745e
+    transparent;
+
+}
+
+
+/* =========================================================
+   TOP LINE
+   ========================================================= */
+
+.dossier-topline {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  color: #766a58;
+
+  font:
+    8px "Share Tech Mono",
+    monospace;
+
+  letter-spacing: 2px;
+
+}
+
+
+.dossier-topline span:first-child {
+
+  color: #76211d;
+
+}
+
+
+/* =========================================================
+   CREATURE NAME
+   ========================================================= */
+
+.dossier-right h2 {
+
+  margin:
+    13px 0
+    13px;
+
+  color: #40352b;
+
+  font:
+    600 clamp(28px,3vw,46px)/1
+    Cinzel,
+    serif;
+
+  letter-spacing: -1px;
+
+}
+
+
+/* =========================================================
+   QUOTE
+   ========================================================= */
+
+.dossier-quote {
+
+  margin: 0 0 15px;
+
+  color: #5d5141;
+
+  font:
+    italic 11px
+    Georgia,
+    serif;
+
+}
+
+
+/* =========================================================
+   INTRO
+   ========================================================= */
+
+.dossier-intro {
+
+  margin: 0;
+
+  max-width: 460px;
+
+  color: #51483d;
+
+  font-size: 10.5px;
+
+  line-height: 1.65;
+
+}
+
+
+/* =========================================================
+   DIVIDER
+   ========================================================= */
+
+.dossier-divider {
+
+  position: relative;
+
+  height: 22px;
+
+  margin: 13px 0 12px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  color: #76211d;
+
+}
+
+
+.dossier-divider::before {
+
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #876f52,
+      transparent
+    );
+
+}
+
+
+.dossier-divider span {
+
+  position: relative;
+
+  z-index: 2;
+
+  padding: 0 12px;
+
+  background: #d3c4a5;
+
+  font-size: 8px;
+
+}
+
+
+/* =========================================================
+   INFORMATION GRID
+   ========================================================= */
+
+.dossier-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  column-gap: 25px;
+
+  row-gap: 16px;
+
+}
+
+
+/* =========================================================
+   INFORMATION BLOCK
+   ========================================================= */
+
+.dossier-block {
+
+  min-width: 0;
+
+}
+
+
+.dossier-heading {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  margin-bottom: 5px;
+
+}
+
+
+.dossier-heading h3 {
+
+  margin: 0;
+
+  color: #76211d;
+
+  font:
+    9px "Share Tech Mono",
+    monospace;
+
+  letter-spacing: 1.4px;
+
+}
+
+
+.dossier-icon {
+
+  width: 17px;
+
+  color: #29231d;
+
+  font-size: 15px;
+
+  text-align: center;
+
+}
+
+
+.dossier-block p {
+
+  margin: 0;
+
+  color: #50483d;
+
+  font-size: 9.5px;
+
+  line-height: 1.55;
+
+}
+
+
+/* =========================================================
+   BOTTOM FILE BAR
+   ========================================================= */
+
+.dossier-bottom {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-top: 17px;
+
+  padding-top: 12px;
+
+  border-top:
+    1px solid rgba(75,53,32,.25);
+
+  color: #766a58;
+
+  font:
+    7px "Share Tech Mono",
+    monospace;
+
+  letter-spacing: 1.4px;
+
+}
+
+
+.dossier-bottom span:first-child {
+
+  color: #76211d;
+
+}
+
+
+.dossier-bottom b {
+
+  font-weight: normal;
+
+}
+
+
+/* =========================================================
+   BOOK SPINE
+   ========================================================= */
+
+.dossier-spine {
+
+  position: absolute;
+
+  z-index: 40;
+
+  top: 0;
+  bottom: 0;
+
+  left: 50%;
+
+  width: 11px;
+
+  transform:
+    translateX(-50%);
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(49,32,17,.3),
+      rgba(255,255,255,.16),
+      rgba(49,32,17,.3)
+    );
+
+  box-shadow:
+    0 0 18px rgba(40,25,15,.25);
+
+}
+
+
+/* =========================================================
+   BOOK EDGE
+   ========================================================= */
+
+.coded-dossier::before {
+
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 45;
+
+  pointer-events: none;
+
+  border:
+    12px solid rgba(58,39,23,.11);
+
+  box-shadow:
+    inset 0 0 65px rgba(48,32,18,.25);
+
+}
+
+
+/* =========================================================
+   PAGE TURN
+   ========================================================= */
+
+.creature-book.page-next
+.coded-dossier {
+
+  animation:
+    codedDossierNext
+    .72s
+    cubic-bezier(.18,.72,.2,1)
+    both;
+
+}
+
+
+.creature-book.page-prev
+.coded-dossier {
+
+  animation:
+    codedDossierPrev
+    .72s
+    cubic-bezier(.18,.72,.2,1)
+    both;
+
+}
+
+
+@keyframes codedDossierNext {
+
+  0% {
+
+    transform:
+      rotateY(0)
+      scale(1);
+
+  }
+
+  35% {
+
+    transform:
+      rotateY(-13deg)
+      translateX(-12px)
+      scale(.985);
+
+    filter: brightness(.9);
+
+  }
+
+  55% {
+
+    transform:
+      rotateY(1deg)
+      translateX(5px)
+      scale(.975);
+
+    filter: brightness(.78);
+
+  }
+
+  100% {
+
+    transform:
+      rotateY(0)
+      scale(1);
+
+    filter: brightness(1);
+
+  }
+
+}
+
+
+@keyframes codedDossierPrev {
+
+  0% {
+
+    transform:
+      rotateY(0)
+      scale(1);
+
+  }
+
+  35% {
+
+    transform:
+      rotateY(13deg)
+      translateX(12px)
+      scale(.985);
+
+    filter: brightness(.9);
+
+  }
+
+  55% {
+
+    transform:
+      rotateY(-1deg)
+      translateX(-5px)
+      scale(.975);
+
+    filter: brightness(.78);
+
+  }
+
+  100% {
+
+    transform:
+      rotateY(0)
+      scale(1);
+
+    filter: brightness(1);
+
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .creature-book {
+
+    width: 88vw !important;
+
+    aspect-ratio: auto !important;
+
+    height: auto !important;
+
+  }
+
+
+  .coded-dossier {
+
+    position: relative;
+
+    grid-template-columns: 1fr;
+
+    min-height: 760px;
+
+  }
+
+
+  .dossier-left {
+
+    min-height: 360px;
+
+  }
+
+
+  .dossier-photo {
+
+    top: 30px;
+    bottom: 38px;
+
+  }
+
+
+  .dossier-right {
+
+    padding:
+      35px
+      30px
+      28px;
+
+  }
+
+
+  .dossier-grid {
+
+    column-gap: 18px;
+
+  }
+
+}
+
+
+@media (max-width: 650px) {
+
+  .creature-book {
+
+    width: 92vw !important;
+
+  }
+
+
+  .coded-dossier {
+
+    min-height: 720px;
+
+  }
+
+
+  .dossier-left {
+
+    min-height: 300px;
+
+  }
+
+
+  .dossier-photo {
+
+    top: 25px;
+    left: 25px;
+    right: 25px;
+    bottom: 35px;
+
+  }
+
+
+  .dossier-right {
+
+    padding:
+      28px
+      22px
+      24px;
+
+  }
+
+
+  .dossier-grid {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .dossier-bottom {
+
+    flex-direction: column;
+
+    gap: 6px;
+
+  }
+
+
+  .creature-book-prev {
+
+    left: -5px !important;
+
+  }
+
+
+  .creature-book-next {
+
+    right: -5px !important;
+
+  }
+
+}
+
+/* =========================================================
+   SILENT HILL 2
+   CREATURE DOSSIER — FINAL CODED BOOK
+   PASTE THIS AT THE VERY BOTTOM OF style.css
+========================================================= */
+
+
+/* =========================================================
+   POPUP
+========================================================= */
+
+.creature-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 140;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+
+  transition:
+    opacity .5s ease,
+    visibility .5s ease;
+}
+
+.creature-modal.open {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+/* =========================================================
+   BACKDROP
+========================================================= */
+
+.creature-modal-backdrop {
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(25,25,23,.08),
+      rgba(0,0,0,.9) 76%
+    );
+
+  backdrop-filter: blur(6px);
+}
+
+
+/* =========================================================
+   BOOK CONTAINER
+========================================================= */
+
+.creature-book {
+  position: relative;
+  z-index: 2;
+
+  width: min(1120px, 76vw);
+
+  /*
+     The reference image is a wide open dossier.
+     This ratio keeps the left and right pages wide.
+  */
+  aspect-ratio: 2.72 / 1;
+
+  transform:
+    translateY(28px)
+    scale(.92)
+    rotate(.18deg);
+
+  opacity: 0;
+
+  transition:
+    transform .75s cubic-bezier(.22,.61,.36,1),
+    opacity .5s ease;
+}
+
+.creature-modal.open .creature-book {
+  transform:
+    translateY(0)
+    scale(1)
+    rotate(.18deg);
+
+  opacity: 1;
+}
+
+
+/* =========================================================
+   OPEN BOOK
+========================================================= */
+
+.book-spread {
+  position: absolute;
+  inset: 0;
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  overflow: hidden;
+
+  background: #d1c09d;
+
+  border:
+    1px solid rgba(58,39,21,.88);
+
+  box-shadow:
+    0 50px 110px rgba(0,0,0,.88),
+    0 12px 34px rgba(0,0,0,.58),
+    inset 0 0 65px rgba(45,29,15,.3);
+
+  transform-style: preserve-3d;
+}
+
+
+/* =========================================================
+   GENERIC PAGE
+========================================================= */
+
+.book-page {
+  position: relative;
+
+  min-width: 0;
+  min-height: 0;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   LEFT PAPER
+========================================================= */
+
+.book-left-page {
+  border-right:
+    1px solid rgba(67,46,25,.38);
+
+  background:
+    radial-gradient(
+      circle at 18% 13%,
+      rgba(255,255,255,.22),
+      transparent 34%
+    ),
+
+    radial-gradient(
+      circle at 83% 84%,
+      rgba(72,44,18,.13),
+      transparent 38%
+    ),
+
+    linear-gradient(
+      135deg,
+      #d8c7a6,
+      #bda985
+    );
+}
+
+
+/* =========================================================
+   RIGHT PAPER
+========================================================= */
+
+.book-right-page {
+  background:
+    radial-gradient(
+      circle at 76% 14%,
+      rgba(255,255,255,.25),
+      transparent 34%
+    ),
+
+    radial-gradient(
+      circle at 12% 86%,
+      rgba(69,42,18,.1),
+      transparent 40%
+    ),
+
+    linear-gradient(
+      135deg,
+      #dfd2b3,
+      #c5b18b
+    );
+}
+
+
+/* =========================================================
+   PAPER TEXTURE
+========================================================= */
+
+.book-paper-texture {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 20;
+
+  pointer-events: none;
+
+  opacity: .52;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 4px,
+      rgba(62,40,19,.045) 5px
+    ),
+
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 7px,
+      rgba(62,40,19,.028) 8px
+    ),
+
+    radial-gradient(
+      ellipse at center,
+      transparent 40%,
+      rgba(48,31,15,.2)
+    );
+}
+
+
+/* =========================================================
+   AGED PAGE EDGES
+========================================================= */
+
+.book-spread::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 45;
+
+  pointer-events: none;
+
+  border:
+    12px solid rgba(48,31,17,.15);
+
+  box-shadow:
+    inset 0 0 70px rgba(42,27,14,.34);
+}
+
+
+/* =========================================================
+   LEFT PHOTO
+========================================================= */
+
+.book-photo-frame {
+  position: absolute;
+
+  top: 34px;
+  left: 34px;
+  right: 34px;
+  bottom: 40px;
+
+  overflow: hidden;
+
+  background: #12110e;
+
+  border:
+    1px solid rgba(61,42,22,.75);
+
+  box-shadow:
+    0 12px 30px rgba(32,21,11,.56),
+    inset 0 0 35px rgba(0,0,0,.45);
+}
+
+
+.book-photo-frame img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  object-position: center;
+
+  filter:
+    sepia(14%)
+    grayscale(10%)
+    contrast(116%)
+    brightness(81%);
+
+  transform: scale(1.015);
+
+  transition:
+    opacity .28s ease,
+    transform .85s cubic-bezier(.22,.61,.36,1);
+}
+
+
+.book-photo-frame img.image-changing {
+  opacity: .04;
+
+  transform: scale(1.05);
+}
+
+
+/* =========================================================
+   PHOTO VIGNETTE
+========================================================= */
+
+.book-photo-vignette {
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,0,0,.07),
+      transparent 44%,
+      rgba(0,0,0,.24)
+    ),
+
+    radial-gradient(
+      circle,
+      transparent 40%,
+      rgba(0,0,0,.42)
+    );
+}
+
+
+/* =========================================================
+   PAPER CLIP
+========================================================= */
+
+.book-paperclip {
+  position: absolute;
+
+  z-index: 40;
+
+  top: 11px;
+  left: 62px;
+
+  width: 16px;
+  height: 61px;
+
+  border:
+    3px solid #563925;
+
+  border-bottom: 0;
+
+  border-radius:
+    12px 12px 0 0;
+
+  transform:
+    rotate(-9deg);
+
+  opacity: .92;
+}
+
+.book-paperclip::after {
+  content: "";
+
+  position: absolute;
+
+  top: 6px;
+  left: 4px;
+
+  width: 8px;
+  height: 47px;
+
+  border:
+    2px solid #70492e;
+
+  border-bottom: 0;
+
+  border-radius:
+    8px 8px 0 0;
+}
+
+
+/* =========================================================
+   SPECIMEN
+========================================================= */
+
+.book-specimen {
+  position: absolute;
+
+  z-index: 30;
+
+  left: 19px;
+  bottom: 11px;
+
+  color: #64523d;
+
+  font:
+    7px "Share Tech Mono",
+    monospace;
+
+  letter-spacing: 2.6px;
+}
+
+
+/* =========================================================
+   LEFT FOOTER
+========================================================= */
+
+.book-left-caption {
+  position: absolute;
+
+  left: 34px;
+  right: 34px;
+  bottom: 11px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 10px;
+
+  color: #776955;
+
+  font:
+    6px "Share Tech Mono",
+    monospace;
+
+  letter-spacing: 1.5px;
+}
+
+
+/* =========================================================
+   RIGHT PAGE CONTENT
+========================================================= */
+
+.book-info-page {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  padding:
+    32px 39px 25px;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   TOPLINE
+========================================================= */
+
+.book-page-topline {
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  color: #746752;
+
+  font:
+    7px "Share Tech Mono",
+    monospace;
+
+  letter-spacing: 2.3px;
+}
+
+.book-page-topline span:first-child {
+  color: #75221d;
+}
+
+
+/* =========================================================
+   CREATURE NAME
+========================================================= */
+
+.book-info-page h2 {
+  margin:
+    11px 0
+    9px;
+
+  color: #44352a;
+
+  font:
+    600 clamp(30px,3.4vw,49px)/.95
+    Cinzel,
+    serif;
+
+  letter-spacing:
+    -1.5px;
+}
+
+
+/* =========================================================
+   QUOTE
+========================================================= */
+
+.book-quote {
+  margin:
+    0 0 10px;
+
+  color: #675642;
+
+  font:
+    italic 9px Georgia, serif;
+}
+
+
+/* =========================================================
+   INTRODUCTION
+========================================================= */
+
+.book-intro {
+  max-width: 510px;
+  margin: 0 0 7px;
+  color: #50453a;
+  font-size: 11.5px;
+  line-height: 1.72;
+  letter-spacing: .05px;
+}
+
+
+/* =========================================================
+   DECORATIVE RULE
+========================================================= */
+
+.book-rule {
+  position: relative;
+
+  height: 18px;
+
+  margin:
+    8px 0
+    7px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+.book-rule::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(110,80,50,.55),
+      transparent
+    );
+}
+
+.book-rule span {
+  position: relative;
+
+  z-index: 2;
+
+  padding:
+    0 10px;
+
+  background:
+    #d4c5a4;
+
+  color:
+    #76211d;
+
+  font-size:
+    6px;
+}
+
+
+/* =========================================================
+   INFORMATION GRID
+========================================================= */
+
+.book-info-grid {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  column-gap: 25px;
+
+  row-gap: 12px;
+}
+
+
+/* =========================================================
+   INFO BLOCK
+========================================================= */
+
+.book-info-block {
+  min-width: 0;
+}
+
+
+/* =========================================================
+   INFO HEADING
+========================================================= */
+
+.book-info-title span {
+  width: 19px;
+
+  color: #29231c;
+
+  font-size: 15px;
+
+  text-align: center;
+}
+
+.book-info-title span {
+  width: 15px;
+
+  color: #29231c;
+
+  font-size: 12px;
+
+  text-align: center;
+}
+
+.book-info-title h3 {
+  margin: 0;
+
+  color: #76231e;
+
+  font: 10px/1.2 "Share Tech Mono", monospace;
+
+  letter-spacing: 1.7px;
+}
+/* =========================================================
+   INFO TEXT
+========================================================= */
+
+.book-info-block p {
+  margin: 0;
+
+  color: #50473b;
+
+  font-size: 11px;
+
+  line-height: 1.58;
+
+  letter-spacing: 0.02px;
+}
+
+/* =========================================================
+   RIGHT PAGE FOOTER
+========================================================= */
+
+.book-page-footer {
+  position: absolute;
+
+  left: 39px;
+  right: 39px;
+
+  bottom: 10px;
+
+  padding-top: 7px;
+
+  border-top:
+    1px solid rgba(68,46,25,.25);
+
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 12px;
+
+  color: #756853;
+
+  font:
+    5.8px "Share Tech Mono",
+    monospace;
+
+  letter-spacing: 1.2px;
+}
+
+.book-page-footer span:first-child {
+  color: #75211d;
+}
+
+.book-page-footer b {
+  font-weight: normal;
+}
+
+
+/* =========================================================
+   CENTER SPINE
+========================================================= */
+
+.book-spine {
+  position: absolute;
+
+  z-index: 50;
+
+  top: 0;
+  bottom: 0;
+
+  left: 50%;
+
+  width: 13px;
+
+  transform:
+    translateX(-50%);
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(48,30,15,.36),
+      rgba(255,255,255,.17),
+      rgba(48,30,15,.36)
+    );
+
+  box-shadow:
+    0 0 20px rgba(39,24,13,.3);
+}
+
+
+/* =========================================================
+   CENTER PAPER EDGE
+========================================================= */
+
+.book-paper-edge {
+  position: absolute;
+
+  z-index: 51;
+
+  top: 0;
+  bottom: 0;
+
+  left: 50%;
+
+  width: 2px;
+
+  transform:
+    translateX(-50%);
+
+  background:
+    rgba(45,29,16,.2);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   BOOK ARROWS
+========================================================= */
+
+.creature-book-arrow {
+  position: absolute;
+
+  top: 50%;
+
+  z-index: 75;
+
+  width: 48px;
+  height: 66px;
+
+  transform:
+    translateY(-50%);
+
+  border:
+    1px solid rgba(190,185,170,.24);
+
+  background:
+    rgba(5,6,6,.74);
+
+  color: #aaa;
+
+  font:
+    46px Georgia, serif;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background .25s ease,
+    color .25s ease,
+    border-color .25s ease,
+    transform .25s ease;
+}
+
+.creature-book-prev {
+  left: -72px;
+}
+
+.creature-book-next {
+  right: -72px;
+}
+
+.creature-book-arrow:hover {
+  color: #fff;
+
+  background:
+    rgba(76,14,14,.86);
+
+  border-color:
+    var(--red2);
+}
+
+.creature-book-arrow:active {
+  transform:
+    translateY(-50%)
+    scale(.92);
+}
+
+.creature-book-arrow:disabled {
+  opacity: .15;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
+
+.creature-book-close {
+  position: absolute;
+
+  top: 4px;
+  right: 5px;
+
+  z-index: 90;
+
+  width: 38px;
+  height: 38px;
+
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+
+  color: #2c241c;
+
+  font:
+    31px Georgia, serif;
+
+  cursor: pointer;
+
+  transition:
+    color .25s ease,
+    transform .25s ease;
+}
+
+.creature-book-close:hover {
+  color: #7b1817;
+
+  transform:
+    rotate(90deg);
+}
+
+
+/* =========================================================
+   COUNTER
+========================================================= */
+
+.creature-book-counter {
+  position: absolute;
+
+  z-index: 80;
+
+  left: 50%;
+
+  bottom: -29px;
+
+  transform:
+    translateX(-50%);
+
+  color: #aaa;
+
+  font:
+    8px "Share Tech Mono",
+    monospace;
+
+  letter-spacing:
+    4px;
+
+  white-space:
+    nowrap;
+}
+
+
+/* =========================================================
+   LOCK BACKGROUND SCROLL
+========================================================= */
+
+body.creature-book-open {
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   PAGE TURN
+========================================================= */
+
+.creature-book.page-next .book-spread {
+  animation:
+    dossier-page-next
+    .76s
+    cubic-bezier(.18,.72,.2,1)
+    both;
+}
+
+.creature-book.page-prev .book-spread {
+  animation:
+    dossier-page-prev
+    .76s
+    cubic-bezier(.18,.72,.2,1)
+    both;
+}
+
+
+@keyframes dossier-page-next {
+
+  0% {
+    transform:
+      rotateY(0)
+      scale(1);
+
+    filter:
+      brightness(1);
+  }
+
+  35% {
+    transform:
+      rotateY(-12deg)
+      translateX(-10px)
+      scale(.985);
+
+    filter:
+      brightness(.9);
+  }
+
+  55% {
+    transform:
+      rotateY(1deg)
+      translateX(4px)
+      scale(.975);
+
+    filter:
+      brightness(.78);
+  }
+
+  100% {
+    transform:
+      rotateY(0)
+      scale(1);
+
+    filter:
+      brightness(1);
+  }
+
+}
+
+
+@keyframes dossier-page-prev {
+
+  0% {
+    transform:
+      rotateY(0)
+      scale(1);
+
+    filter:
+      brightness(1);
+  }
+
+  35% {
+    transform:
+      rotateY(12deg)
+      translateX(10px)
+      scale(.985);
+
+    filter:
+      brightness(.9);
+  }
+
+  55% {
+    transform:
+      rotateY(-1deg)
+      translateX(-4px)
+      scale(.975);
+
+    filter:
+      brightness(.78);
+  }
+
+  100% {
+    transform:
+      rotateY(0)
+      scale(1);
+
+    filter:
+      brightness(1);
+  }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .creature-book {
+    width: 80vw;
+  }
+
+  .book-info-page {
+    padding:
+      28px 30px 23px;
+  }
+
+  .book-page-footer {
+    left: 30px;
+    right: 30px;
+  }
+
+  .creature-book-prev {
+    left: -38px;
+  }
+
+  .creature-book-next {
+    right: -38px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL TABLET
+========================================================= */
+
+@media (max-width: 800px) {
+
+  .creature-book {
+    width: 90vw;
+    aspect-ratio: 2.72 / 1;
+  }
+
+  .book-photo-frame {
+    top: 27px;
+    left: 27px;
+    right: 27px;
+    bottom: 34px;
+  }
+
+  .book-info-page {
+    padding:
+      25px 24px 20px;
+  }
+
+  .book-info-page h2 {
+    font-size:
+      clamp(25px, 4.5vw, 40px);
+  }
+
+  .book-info-grid {
+    column-gap: 16px;
+    row-gap: 10px;
+  }
+
+  .book-info-block p {
+    font-size: 7.5px;
+  }
+
+  .book-page-footer {
+    left: 24px;
+    right: 24px;
+  }
+
+  .creature-book-prev {
+    left: -10px;
+  }
+
+  .creature-book-next {
+    right: -10px;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+  .creature-modal {
+    padding:
+      20px 10px;
+  }
+
+  .creature-book {
+    width: 94vw;
+
+    aspect-ratio:
+      auto;
+
+    transform:
+      translateY(20px)
+      scale(.94);
+  }
+
+  .creature-modal.open .creature-book {
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+  .book-spread {
+    position: relative;
+
+    grid-template-columns:
+      1fr;
+  }
+
+  .book-left-page {
+    min-height:
+      300px;
+  }
+
+  .book-right-page {
+    min-height:
+      600px;
+  }
+
+  .book-photo-frame {
+    top: 25px;
+    left: 25px;
+    right: 25px;
+    bottom: 35px;
+  }
+
+  .book-info-page {
+    height: auto;
+
+    padding:
+      28px 22px 22px;
+
+    overflow:
+      visible;
+  }
+
+  .book-info-page h2 {
+    font-size: 34px;
+  }
+
+  .book-info-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+  .book-info-block p {
+    font-size:
+      9px;
+  }
+
+  .book-page-footer {
+    position:
+      relative;
+
+    left:
+      auto;
+
+    right:
+      auto;
+
+    bottom:
+      auto;
+
+    margin-top:
+      20px;
+
+    flex-direction:
+      column;
+
+    gap:
+      6px;
+  }
+
+  .book-spine,
+  .book-paper-edge {
+    display:
+      none;
+  }
+
+  .creature-book-prev {
+    left:
+      -3px;
+  }
+
+  .creature-book-next {
+    right:
+      -3px;
+  }
+
+  .creature-book-arrow {
+    width:
+      40px;
+
+    height:
+      58px;
+
+    font-size:
+      38px;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 430px) {
+
+  .book-left-page {
+    min-height:
+      270px;
+  }
+
+  .book-right-page {
+    min-height:
+      700px;
+  }
+
+  .book-info-page {
+    padding:
+      24px 18px 20px;
+  }
+
+  .book-info-page h2 {
+    font-size:
+      29px;
+  }
+
+  .book-page-topline {
+    font-size:
+      6px;
+
+    letter-spacing:
+      1.5px;
+  }
+
+  .book-intro {
+    font-size:
+      8.8px;
+  }
+
+  .book-info-block p {
+    font-size:
+      8.5px;
+  }
+
+  .book-page-footer {
+    font-size:
+      5.5px;
+  }
+
+}
+/* =========================================================
+   WORLD MAP ARCHIVE
+========================================================= */
+
+
+/* =========================================================
+   WORLD SECTION
+========================================================= */
+
+.world-map-section {
+  position: relative;
+
+  padding-top: 90px;
+  padding-bottom: 120px;
+}
+
+
+.world-map-heading {
+  margin-bottom: 45px;
+}
+
+.world-map-heading h2 {
+  font:
+    800 clamp(42px, 6vw, 76px)/.9
+    Cinzel,
+    serif;
+
+  letter-spacing: -3px;
+
+  margin: 12px 0 22px;
+
+  color: #ddd;
+}
+
+.world-map-heading h2 span {
+  color: var(--red2);
+}
+
+.world-map-heading > p:last-child {
+  max-width: 650px;
+
+  color: #777;
+
+  font-size: 13px;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   CARD GRID
+========================================================= */
+
+.world-map-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 2px;
+
+  background:
+    var(--line);
+}
+
+
+/* =========================================================
+   MAP CARD
+========================================================= */
+
+.world-map-card {
+  position: relative;
+
+  min-height: 300px;
+
+  padding: 35px;
+
+  overflow: hidden;
+
+  text-align: left;
+
+  border: 0;
+
+  background: #111313;
+
+  color: var(--text);
+
+  cursor: pointer;
+
+  isolation: isolate;
+}
+
+
+/* =========================================================
+   BACKGROUND MAP
+========================================================= */
+
+.world-map-card > img {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: -3;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  object-position: center;
+
+  opacity: .20;
+
+  filter:
+    grayscale(100%)
+    contrast(115%)
+    brightness(55%);
+
+  transform: scale(1.04);
+
+  transition:
+    opacity .6s ease,
+    transform .8s cubic-bezier(.22,.61,.36,1),
+    filter .6s ease;
+}
+
+
+/* =========================================================
+   DARK OVERLAY
+========================================================= */
+
+.world-map-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: -2;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(7,8,8,.9),
+      rgba(7,8,8,.62)
+    ),
+
+    radial-gradient(
+      circle at 70% 30%,
+      rgba(157,23,23,.18),
+      transparent 50%
+    );
+
+  transition:
+    background .6s ease;
+}
+
+
+/* =========================================================
+   CARD HOVER
+========================================================= */
+
+.world-map-card:hover > img {
+
+  opacity: .38;
+
+  transform:
+    scale(1.1);
+
+  filter:
+    grayscale(70%)
+    contrast(115%)
+    brightness(62%);
+}
+
+
+.world-map-card:hover .world-map-overlay {
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(7,8,8,.76),
+      rgba(7,8,8,.46)
+    );
+}
+
+
+/* =========================================================
+   CARD NUMBER
+========================================================= */
+
+.world-map-number {
+
+  position: absolute;
+
+  top: 25px;
+  left: 35px;
+
+  color: var(--red2);
+
+  font:
+    10px "Share Tech Mono",
+    monospace;
+
+  letter-spacing: 2px;
+}
+
+
+/* =========================================================
+   CARD CONTENT
+========================================================= */
+
+.world-map-content {
+  position: absolute;
+
+  left: 35px;
+  bottom: 55px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+
+.world-map-label {
+  color: #92948f;
+
+  font:
+    9px "Share Tech Mono",
+    monospace;
+
+  letter-spacing: 2px;
+}
+
+
+.world-map-content strong {
+
+  font:
+    600 clamp(28px, 3vw, 43px)
+    Cinzel,
+    serif;
+
+  letter-spacing:
+    -1px;
+
+}
+
+
+.world-map-content small {
+
+  color: #7b7e79;
+
+  font:
+    9px "Share Tech Mono",
+    monospace;
+
+  letter-spacing:
+    2px;
+}
+
+
+/* =========================================================
+   OPEN LABEL
+========================================================= */
+
+.world-map-open {
+
+  position: absolute;
+
+  left: 35px;
+  bottom: 25px;
+
+  color: #a4a6a1;
+
+  font:
+    9px "Share Tech Mono",
+    monospace;
+
+  letter-spacing: 2px;
+
+  transition:
+    color .25s ease,
+    transform .25s ease;
+}
+
+
+.world-map-card:hover .world-map-open {
+
+  color: #fff;
+
+  transform:
+    translateX(5px);
+}
+
+
+/* =========================================================
+   MAP MODAL
+========================================================= */
+
+.world-map-modal {
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 160;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding:
+    40px;
+
+  visibility: hidden;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition:
+    opacity .45s ease,
+    visibility .45s ease;
+}
+
+
+.world-map-modal.open {
+
+  visibility: visible;
+
+  opacity: 1;
+
+  pointer-events: auto;
+}
+
+
+/* =========================================================
+   BACKDROP
+========================================================= */
+
+.world-map-backdrop {
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(40,42,39,.06),
+      rgba(0,0,0,.92) 78%
+    );
+
+  backdrop-filter:
+    blur(7px);
+}
+
+
+/* =========================================================
+   MAP WINDOW
+========================================================= */
+
+.world-map-window {
+
+  position: relative;
+
+  z-index: 2;
+
+  width:
+    min(1400px, 92vw);
+
+  height:
+    min(850px, 88vh);
+
+  display: grid;
+
+  grid-template-rows:
+    auto
+    1fr
+    auto;
+
+  background:
+    #101212;
+
+  border:
+    1px solid rgba(255,255,255,.09);
+
+  box-shadow:
+    0 40px 120px rgba(0,0,0,.8);
+
+  transform:
+    translateY(25px)
+    scale(.96);
+
+  opacity: 0;
+
+  transition:
+    transform .6s cubic-bezier(.22,.61,.36,1),
+    opacity .45s ease;
+
+}
+
+
+.world-map-modal.open
+.world-map-window {
+
+  transform:
+    translateY(0)
+    scale(1);
+
+  opacity: 1;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.world-map-window-header {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding:
+    22px 28px;
+
+  border-bottom:
+    1px solid var(--line);
+
+  background:
+    rgba(8,9,9,.75);
+}
+
+
+.world-map-window-label {
+
+  display: block;
+
+  margin-bottom: 6px;
+
+  color:
+    var(--red2);
+
+  font:
+    8px "Share Tech Mono",
+    monospace;
+
+  letter-spacing:
+    2px;
+}
+
+
+.world-map-window-header h2 {
+
+  margin: 0;
+
+  color: #ddd;
+
+  font:
+    600 clamp(21px, 2.5vw, 34px)
+    Cinzel,
+    serif;
+
+}
+
+
+/* =========================================================
+   CLOSE
+========================================================= */
+
+.world-map-close {
+
+  width: 42px;
+
+  height: 42px;
+
+  border: 1px solid
+    rgba(255,255,255,.1);
+
+  background:
+    rgba(0,0,0,.25);
+
+  color: #999;
+
+  font:
+    30px Georgia,
+    serif;
+
+  cursor: pointer;
+
+  transition:
+    color .25s ease,
+    border-color .25s ease,
+    transform .25s ease;
+}
+
+
+.world-map-close:hover {
+
+  color: #fff;
+
+  border-color:
+    var(--red2);
+
+  transform:
+    rotate(90deg);
+}
+
+
+/* =========================================================
+   MAP VIEW
+========================================================= */
+
+.world-map-view {
+
+  position: relative;
+
+  min-height: 0;
+
+  overflow: hidden;
+
+  background:
+    #090a0a;
+
+}
+
+
+.world-map-view::before {
+
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 2;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at center,
+      transparent 45%,
+      rgba(0,0,0,.38)
+    );
+
+}
+
+
+.world-map-view img {
+
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+
+  height: 100%;
+
+  display: block;
+
+  object-fit: contain;
+
+  padding: 22px;
+
+  filter:
+    saturate(.8)
+    contrast(1.05)
+    brightness(.9);
+
+  transform:
+    translateY(0);
+
+  opacity: 1;
+}
+
+
+/* =========================================================
+   VIGNETTE
+========================================================= */
+
+.world-map-vignette {
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 5;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,0,0,.12),
+      transparent 25%,
+      transparent 75%,
+      rgba(0,0,0,.12)
+    ),
+
+    linear-gradient(
+      0deg,
+      rgba(0,0,0,.2),
+      transparent 20%,
+      transparent 80%,
+      rgba(0,0,0,.16)
+    );
+}
+
+
+/* =========================================================
+   MAP NAVIGATION
+========================================================= */
+
+.world-map-nav {
+
+  position: absolute;
+
+  z-index: 20;
+
+  left: 50%;
+
+  width: 58px;
+
+  height: 54px;
+
+  transform:
+    translateX(-50%);
+
+  border:
+    1px solid rgba(190,190,180,.2);
+
+  background:
+    rgba(5,6,6,.72);
+
+  color: #aaa;
+
+  font:
+    28px Georgia,
+    serif;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background .25s ease,
+    color .25s ease,
+    border-color .25s ease,
+    transform .25s ease;
+}
+
+
+.world-map-prev {
+
+  top: 90px;
+
+}
+
+
+.world-map-next {
+
+  bottom: 85px;
+
+}
+
+
+.world-map-nav:hover {
+
+  color: #fff;
+
+  background:
+    rgba(75,14,14,.85);
+
+  border-color:
+    var(--red2);
+}
+
+
+.world-map-nav:active {
+
+  transform:
+    translateX(-50%)
+    scale(.92);
+}
+
+
+.world-map-nav:disabled {
+
+  opacity: .12;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.world-map-window-footer {
+
+  display: grid;
+
+  grid-template-columns:
+    1fr auto 1fr;
+
+  align-items: center;
+
+  padding:
+    13px 24px;
+
+  border-top:
+    1px solid var(--line);
+
+  color: #686b67;
+
+  font:
+    8px "Share Tech Mono",
+    monospace;
+
+  letter-spacing:
+    2px;
+}
+
+
+.world-map-window-footer span:nth-child(2) {
+
+  color: #999;
+
+}
+
+
+/* =========================================================
+   MAP TRANSITIONS
+========================================================= */
+
+.map-leaving-down {
+
+  animation:
+    mapLeaveDown
+    .22s
+    ease
+    both;
+
+}
+
+
+.map-leaving-up {
+
+  animation:
+    mapLeaveUp
+    .22s
+    ease
+    both;
+
+}
+
+
+.map-enter-up {
+
+  animation:
+    mapEnterUp
+    .48s
+    cubic-bezier(.22,.61,.36,1)
+    both;
+
+}
+
+
+.map-enter-down {
+
+  animation:
+    mapEnterDown
+    .48s
+    cubic-bezier(.22,.61,.36,1)
+    both;
+
+}
+
+
+@keyframes mapLeaveDown {
+
+  from {
+
+    opacity: 1;
+
+    transform:
+      translateY(0);
+
+  }
+
+  to {
+
+    opacity: 0;
+
+    transform:
+      translateY(22px);
+
+  }
+
+}
+
+
+@keyframes mapLeaveUp {
+
+  from {
+
+    opacity: 1;
+
+    transform:
+      translateY(0);
+
+  }
+
+  to {
+
+    opacity: 0;
+
+    transform:
+      translateY(-22px);
+
+  }
+
+}
+
+
+@keyframes mapEnterUp {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      translateY(28px);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      translateY(0);
+
+  }
+
+}
+
+
+@keyframes mapEnterDown {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      translateY(-28px);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      translateY(0);
+
+  }
+
+}
+
+
+/* =========================================================
+   BODY LOCK
+========================================================= */
+
+body.world-map-open {
+
+  overflow: hidden;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 800px) {
+
+  .world-map-grid {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .world-map-card {
+
+    min-height:
+      250px;
+
+  }
+
+
+  .world-map-modal {
+
+    padding:
+      15px;
+
+  }
+
+
+  .world-map-window {
+
+    width:
+      96vw;
+
+    height:
+      92vh;
+
+  }
+
+
+  .world-map-window-footer {
+
+    grid-template-columns:
+      1fr 1fr;
+
+    row-gap:
+      8px;
+
+  }
+
+
+  .world-map-window-footer span:nth-child(2) {
+
+    text-align:
+      right;
+
+  }
+
+
+  .world-map-window-footer span:last-child {
+
+    grid-column:
+      1 / -1;
+
+    text-align:
+      center;
+
+  }
+
+}
+
+
+@media (max-width: 550px) {
+
+  .world-map-window-header {
+
+    padding:
+      18px;
+
+  }
+
+
+  .world-map-window-header h2 {
+
+    font-size:
+      20px;
+
+  }
+
+
+  .world-map-view img {
+
+    padding:
+      8px;
+
+  }
+
+
+  .world-map-nav {
+
+    width:
+      48px;
+
+    height:
+      48px;
+
+  }
+
+}
+/* =========================================================
+   CREATURE INFO CARD SLIDE ANIMATION
+========================================================= */
+
+.book-info-grid {
+  position: relative;
+  perspective: 900px;
+}
+
+
+/* Every information block behaves like a card */
+
+.book-info-block {
+  position: relative;
+
+  opacity: 1;
+
+  transform:
+    translateX(0)
+    translateZ(0);
+
+  transform-origin:
+    left center;
+
+  transition:
+    transform .45s cubic-bezier(.22,.61,.36,1),
+    opacity .35s ease;
+}
+
+
+/* =========================================================
+   SLIDE FROM LEFT
+========================================================= */
+
+.book-info-grid.cards-enter
+.book-info-block {
+
+  animation:
+    infoCardSlideIn
+    .6s
+    cubic-bezier(.22,.61,.36,1)
+    both;
+
+}
+
+
+/* Stagger the cards */
+
+.book-info-grid.cards-enter
+.book-info-block:nth-child(1) {
+  animation-delay: .04s;
+}
+
+.book-info-grid.cards-enter
+.book-info-block:nth-child(2) {
+  animation-delay: .10s;
+}
+
+.book-info-grid.cards-enter
+.book-info-block:nth-child(3) {
+  animation-delay: .16s;
+}
+
+.book-info-grid.cards-enter
+.book-info-block:nth-child(4) {
+  animation-delay: .22s;
+}
+
+.book-info-grid.cards-enter
+.book-info-block:nth-child(5) {
+  animation-delay: .28s;
+}
+
+.book-info-grid.cards-enter
+.book-info-block:nth-child(6) {
+  animation-delay: .34s;
+}
+
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+@keyframes infoCardSlideIn {
+
+  0% {
+
+    opacity: 0;
+
+    transform:
+      translateX(-75px)
+      translateZ(-35px)
+      rotateY(-7deg)
+      scale(.96);
+
+    filter:
+      blur(3px);
+
+  }
+
+
+  55% {
+
+    opacity: 1;
+
+    transform:
+      translateX(8px)
+      translateZ(10px)
+      rotateY(1deg)
+      scale(1);
+
+    filter:
+      blur(0);
+
+  }
+
+
+  100% {
+
+    opacity: 1;
+
+    transform:
+      translateX(0)
+      translateZ(0)
+      rotateY(0)
+      scale(1);
+
+    filter:
+      blur(0);
+
+  }
+
+}
+/* =========================================================
+   ENDINGS LIVE WALLPAPER
+========================================================= */
+
+#endings {
+  position: relative;
+  isolation: isolate;
+}
+
+
+/* Make all normal endings content sit above video */
+
+#endings > *:not(.ending-wallpaper) {
+  position: relative;
+  z-index: 5;
+}
+
+
+/* =========================================================
+   VIDEO CONTAINER
+========================================================= */
+
+.ending-wallpaper {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 0;
+
+  overflow: hidden;
+
+  pointer-events: none;
+
+}
+
+
+/* =========================================================
+   VIDEO
+========================================================= */
+
+.ending-wallpaper-video {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  width: 100%;
+  height: 100%;
+
+  min-width: 100%;
+  min-height: 100%;
+
+  transform:
+    translate(-50%, -50%)
+    scale(1.05);
+
+  object-fit: cover;
+
+  opacity: .88;
+
+  filter:
+    grayscale(10%)
+    contrast(105%)
+    brightness(95%)
+    saturate(90%);
+}
+
+
+/* =========================================================
+   DARK OVERLAY
+========================================================= */
+
+.ending-wallpaper-dark {
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0,0,0,.08) 0%,
+      rgba(0,0,0,.05) 45%,
+      rgba(0,0,0,.15) 100%
+    );
+}
+
+
+/* =========================================================
+   SIDE VIGNETTE
+========================================================= */
+
+.ending-wallpaper-fog {
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 55%,
+      rgba(0,0,0,.12) 100%
+    );
+
+  opacity: .45;
+}
+
+
+/* =========================================================
+   SLIGHT MOVEMENT
+========================================================= */
+
+.ending-wallpaper-video {
+  animation:
+    endingWallpaperDrift
+    18s
+    ease-in-out
+    infinite alternate;
+}
+
+
+@keyframes endingWallpaperDrift {
+
+  from {
+    transform:
+      translate(-50%, -50%)
+      scale(1.08);
+  }
+
+  to {
+    transform:
+      translate(-50%, -50%)
+      scale(1.15);
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .ending-wallpaper-video {
+
+    opacity: .35;
+
+    filter:
+      grayscale(80%)
+      contrast(115%)
+      brightness(35%)
+      blur(1px);
+
+  }
+
+}
+/* =========================================================
+   LORE ARCHIVE
+========================================================= */
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.lore-hero {
+  position: relative;
+
+  min-height: 72vh;
+
+  display: flex;
+
+  align-items: center;
+
+  padding:
+    150px 8vw 100px;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 68% 45%,
+      rgba(65,20,20,.22),
+      transparent 35%
+    ),
+
+    radial-gradient(
+      circle at 40% 50%,
+      #202524,
+      #080909 70%
+    );
+}
+
+
+.lore-hero::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 4px,
+      rgba(255,255,255,.01) 5px
+    );
+}
+
+
+.lore-hero-inner {
+  position: relative;
+
+  z-index: 2;
+
+  max-width: 950px;
+}
+
+
+.lore-hero h1 {
+  margin:
+    0 0 35px;
+
+  font:
+    800 clamp(65px, 9vw, 135px)/.8
+    Cinzel,
+    serif;
+
+  letter-spacing:
+    -6px;
+
+  color:
+    #ddd;
+}
+
+
+.lore-hero h1 span {
+  color:
+    var(--red2);
+}
+
+
+.lore-hero-intro {
+  max-width:
+    720px;
+
+  margin:
+    0;
+
+  color:
+    #979b96;
+
+  font:
+    15px/1.8
+    Arial,
+    sans-serif;
+}
+
+
+/* =========================================================
+   SPOILER WARNING
+========================================================= */
+
+.lore-warning {
+  max-width:
+    720px;
+
+  margin-top:
+    40px;
+
+  padding:
+    20px 24px;
+
+  border:
+    1px solid rgba(157,23,23,.55);
+
+  background:
+    rgba(40,7,7,.42);
+}
+
+
+.lore-warning span {
+  display:
+    block;
+
+  margin-bottom:
+    8px;
+
+  color:
+    var(--red2);
+
+  font:
+    9px
+    "Share Tech Mono",
+    monospace;
+
+  letter-spacing:
+    3px;
+}
+
+
+.lore-warning p {
+  margin:
+    0;
+
+  color:
+    #777b76;
+
+  font-size:
+    12px;
+
+  line-height:
+    1.65;
+}
+
+
+/* =========================================================
+   ARCHIVE
+========================================================= */
+
+.lore-archive {
+  max-width:
+    1200px;
+
+  margin:
+    0 auto;
+
+  padding:
+    120px 5vw;
+}
+
+
+/* =========================================================
+   CHAPTER
+========================================================= */
+
+.lore-chapter {
+  display:
+    grid;
+
+  grid-template-columns:
+    90px 1fr;
+
+  gap:
+    40px;
+
+  padding:
+    100px 0;
+
+  border-top:
+    1px solid rgba(255,255,255,.07);
+}
+
+
+.lore-chapter:first-child {
+  border-top:
+    0;
+}
+
+
+.lore-chapter-reverse
+.lore-chapter-content {
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(30,12,12,.06)
+    );
+}
+
+
+.lore-chapter-number {
+  color:
+    var(--red2);
+
+  font:
+    13px
+    "Share Tech Mono",
+    monospace;
+
+  letter-spacing:
+    3px;
+
+  padding-top:
+    8px;
+}
+
+
+.lore-chapter-content {
+  max-width:
+    850px;
+}
+
+
+.lore-chapter-content h2 {
+  margin:
+    12px 0 28px;
+
+  color:
+    #ddd;
+
+  font:
+    600 clamp(38px,5vw,66px)/.9
+    Cinzel,
+    serif;
+
+  letter-spacing:
+    -2px;
+}
+
+
+.lore-chapter-content h2 span {
+  color:
+    var(--red2);
+}
+
+
+.lore-chapter-content > p:not(.eyebrow) {
+  max-width:
+    790px;
+
+  margin:
+    0 0 24px;
+
+  color:
+    #969a95;
+
+  font-size:
+    15px;
+
+  line-height:
+    1.9;
+}
+
+
+/* =========================================================
+   HIGHLIGHT
+========================================================= */
+
+.lore-highlight {
+  margin:
+    40px 0;
+
+  padding:
+    25px 30px;
+
+  border-left:
+    3px solid var(--red2);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(110,17,17,.16),
+      transparent
+    );
+}
+
+
+.lore-highlight strong {
+  display:
+    block;
+
+  margin-bottom:
+    10px;
+
+  color:
+    var(--red2);
+
+  font:
+    10px
+    "Share Tech Mono",
+    monospace;
+
+  letter-spacing:
+    3px;
+}
+
+
+.lore-highlight span {
+  color:
+    #aaa;
+
+  font-size:
+    14px;
+
+  line-height:
+    1.7;
+}
+
+
+/* =========================================================
+   REVEAL / TRUTH BLOCK
+========================================================= */
+
+.lore-reveal {
+  margin:
+    45px 0;
+
+  padding:
+    30px;
+
+  background:
+    #0d0f0f;
+
+  border:
+    1px solid #303231;
+
+  box-shadow:
+    0 20px 50px rgba(0,0,0,.25);
+}
+
+
+.lore-reveal-label {
+  display:
+    block;
+
+  margin-bottom:
+    12px;
+
+  color:
+    var(--red2);
+
+  font:
+    9px
+    "Share Tech Mono",
+    monospace;
+
+  letter-spacing:
+    3px;
+}
+
+
+.lore-reveal p {
+  margin:
+    0;
+
+  color:
+    #bbb;
+
+  font-size:
+    15px;
+
+  line-height:
+    1.75;
+}
+
+
+/* =========================================================
+   BIG STATEMENT
+========================================================= */
+
+.lore-statement {
+  margin:
+    50px 0;
+
+  text-align:
+    center;
+
+  padding:
+    45px 20px;
+
+  border-block:
+    1px solid rgba(157,23,23,.35);
+}
+
+
+.lore-statement span {
+  display:
+    block;
+
+  color:
+    #ddd;
+
+  font:
+    600 clamp(24px,3vw,42px)/1
+    Cinzel,
+    serif;
+}
+
+
+.lore-statement span + p {
+  max-width:
+    650px;
+
+  margin:
+    20px auto 0;
+
+  color:
+    #777;
+
+  font-size:
+    13px;
+
+  line-height:
+    1.7;
+}
+
+
+/* =========================================================
+   CHARACTER COMPARISON GRID
+========================================================= */
+
+.lore-grid {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap:
+    2px;
+
+  margin-top:
+    40px;
+
+  background:
+    var(--line);
+}
+
+
+.lore-grid div {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    8px;
+
+  padding:
+    30px;
+
+  background:
+    var(--panel);
+}
+
+
+.lore-grid strong {
+  color:
+    #ddd;
+
+  font:
+    600 22px
+    Cinzel,
+    serif;
+}
+
+
+.lore-grid span {
+  color:
+    var(--red2);
+
+  font:
+    9px
+    "Share Tech Mono",
+    monospace;
+
+  letter-spacing:
+    2px;
+}
+
+
+/* =========================================================
+   SPECIAL TRUTH CHAPTER
+========================================================= */
+
+.lore-truth {
+  margin:
+    50px -5vw;
+
+  padding:
+    120px 5vw;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(60,10,10,.16),
+      transparent 60%
+    );
+
+  border-block:
+    1px solid rgba(157,23,23,.25);
+}
+
+
+.lore-final-truth {
+  margin:
+    55px 0;
+
+  padding:
+    45px;
+
+  text-align:
+    center;
+
+  background:
+    rgba(20,7,7,.55);
+
+  border:
+    1px solid rgba(157,23,23,.5);
+}
+
+
+.lore-final-truth span {
+  display:
+    block;
+
+  margin-bottom:
+    13px;
+
+  color:
+    #aaa;
+
+  font:
+    14px
+    "Share Tech Mono",
+    monospace;
+
+  letter-spacing:
+    3px;
+}
+
+
+.lore-final-truth strong {
+  display:
+    block;
+
+  color:
+    var(--red2);
+
+  font:
+    600 clamp(24px,3vw,44px)
+    Cinzel,
+    serif;
+}
+
+
+/* =========================================================
+   ENDINGS
+========================================================= */
+
+.lore-subheading {
+  margin:
+    45px 0 10px;
+
+  color:
+    #ddd;
+
+  font:
+    600 24px
+    Cinzel,
+    serif;
+}
+
+
+.lore-note {
+  margin-top:
+    35px !important;
+
+  padding:
+    20px;
+
+  border-left:
+    2px solid #555;
+
+  color:
+    #666 !important;
+
+  font:
+    11px/1.7
+    "Share Tech Mono",
+    monospace !important;
+}
+
+
+/* =========================================================
+   FINAL CHAPTER
+========================================================= */
+
+.lore-final {
+  min-height:
+    70vh;
+
+  display:
+    grid;
+
+  align-items:
+    center;
+}
+
+
+.lore-final-quote {
+  margin:
+    60px 0 0;
+
+  text-align:
+    center;
+
+  padding:
+    50px 30px;
+
+  border-block:
+    1px solid rgba(157,23,23,.4);
+}
+
+
+.lore-final-quote span {
+  display:
+    block;
+
+  margin-bottom:
+    16px;
+
+  color:
+    #aaa;
+
+  font:
+    12px
+    "Share Tech Mono",
+    monospace;
+
+  letter-spacing:
+    3px;
+}
+
+
+.lore-final-quote strong {
+  display:
+    block;
+
+  color:
+    var(--red2);
+
+  font:
+    600 clamp(25px,3.5vw,47px)/1.05
+    Cinzel,
+    serif;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.lore-footer {
+  padding:
+    70px 5vw;
+
+  text-align:
+    center;
+
+  border-top:
+    1px solid var(--line);
+
+  background:
+    #070808;
+}
+
+
+.lore-footer p {
+  margin:
+    0 0 12px;
+
+  color:
+    var(--red2);
+
+  font:
+    9px
+    "Share Tech Mono",
+    monospace;
+
+  letter-spacing:
+    3px;
+}
+
+
+.lore-footer span {
+  color:
+    #555;
+
+  font:
+    10px
+    "Share Tech Mono",
+    monospace;
+
+  letter-spacing:
+    4px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 800px) {
+
+  .lore-hero {
+    padding:
+      120px 7vw 80px;
+  }
+
+  .lore-hero h1 {
+    letter-spacing:
+      -3px;
+  }
+
+  .lore-archive {
+    padding:
+      80px 7vw;
+  }
+
+  .lore-chapter {
+    grid-template-columns:
+      1fr;
+
+    gap:
+      18px;
+
+    padding:
+      70px 0;
+  }
+
+  .lore-chapter-number {
+    padding-top:
+      0;
+  }
+
+  .lore-chapter-content
+  h2 {
+    font-size:
+      40px;
+  }
+
+  .lore-truth {
+    margin:
+      30px -7vw;
+
+    padding:
+      80px 7vw;
+  }
+
+  .lore-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+}
+
+
+@media (max-width: 500px) {
+
+  .lore-hero h1 {
+    font-size:
+      55px;
+  }
+
+  .lore-chapter-content h2 {
+    font-size:
+      33px;
+  }
+
+  .lore-chapter-content
+  > p:not(.eyebrow) {
+    font-size:
+      14px;
+  }
+
+  .lore-final-truth {
+    padding:
+      30px 18px;
+  }
+
+}
+/* =========================================================
+   HEADER NAV TOOLS
+========================================================= */
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 7px;
+}
+
+
+.nav-main {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+
+.nav-tools {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+
+/* =========================================================
+   TOOL BUTTONS
+========================================================= */
+
+.nav-tool {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  min-height: 23px;
+
+  padding:
+    5px 9px;
+
+  border:
+    1px solid rgba(255,255,255,.10);
+
+  background:
+    rgba(5,6,6,.42);
+
+  color:
+    #858883;
+
+  text-decoration: none;
+
+  font:
+    7px
+    "Share Tech Mono",
+    monospace;
+
+  letter-spacing:
+    1.5px;
+
+  transition:
+    color .25s ease,
+    border-color .25s ease,
+    background .25s ease,
+    transform .25s ease;
+}
+
+
+.nav-tool:hover {
+  color:
+    #fff;
+
+  border-color:
+    rgba(170,32,32,.65);
+
+  background:
+    rgba(75,12,12,.45);
+
+  transform:
+    translateY(-1px);
+}
+
+
+/* =========================================================
+   STEAM
+========================================================= */
+
+.steam-tool {
+  color:
+    #8e918b;
+}
+
+
+.steam-logo {
+  width:
+    10px;
+
+  height:
+    10px;
+
+  fill:
+    currentColor;
+}
+
+
+.steam-tool b {
+  color:
+    #a92727;
+
+  font-size:
+    9px;
+
+  font-weight:
+    normal;
+}
+
+
+/* =========================================================
+   DOWNLOAD
+========================================================= */
+
+.download-tool {
+  color:
+    #888b85;
+}
+
+
+.download-icon {
+  color:
+    #a92727;
+
+  font-size:
+    11px;
+
+  line-height:
+    1;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 800px) {
+
+  .nav {
+    align-items:
+      stretch;
+  }
+
+  .nav-main {
+    flex-direction:
+      column;
+
+    align-items:
+      stretch;
+
+    gap:
+      0;
+  }
+
+  .nav-tools {
+    justify-content:
+      center;
+
+    margin-top:
+      8px;
+  }
+
+}
+/* =========================================================
+   RANDOM FRONT-TEXT LETTER REVEAL
+   ========================================================= */
+
+.front-letter {
+    opacity: 0;
+    display: inline;
+    filter: blur(4px);
+
+    animation:
+        frontLetterReveal
+        0.45s
+        ease-out
+        var(--letter-delay)
+        forwards;
+}
+
+@keyframes frontLetterReveal {
+
+    0% {
+        opacity: 0;
+        filter: blur(4px);
+    }
+
+    60% {
+        opacity: 0.65;
+        filter: blur(1px);
+    }
+
+    100% {
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+/* =========================================================
+   RANDOM FRONT TEXT — FAST LETTER REVEAL
+========================================================= */
+
+.front-letter {
+    display: inline;
+    opacity: 0;
+    filter: blur(3px);
+
+    animation:
+        frontLetterReveal
+        0.20s
+        ease-out
+        var(--letter-delay)
+        forwards;
+}
+
+@keyframes frontLetterReveal {
+
+    0% {
+        opacity: 0;
+        filter: blur(3px);
+    }
+
+    60% {
+        opacity: 0.75;
+        filter: blur(0.8px);
+    }
+
+    100% {
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+/* Keep SILENT white */
+.hero h1 .front-letter,
+.hero h1 .front-letter:first-child {
+    color: inherit;
+}
+/* =========================================================
+   ENDINGS TREE — EXPANDED GUIDE
+   ========================================================= */
+
+.tree-choices-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+
+.tree-choice-route {
+  grid-column: 1 / -1;
+
+  border-color:
+    rgba(167,25,25,.45);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(40,12,12,.96),
+      rgba(8,9,9,.97)
+    );
+}
+
+
+.tree-info-panel {
+  margin:
+    0 0 34px;
+
+  padding:
+    22px 25px;
+
+  border:
+    1px solid #292c2b;
+
+  background:
+    rgba(5,6,6,.75);
+}
+
+
+.tree-info-label {
+  display: block;
+
+  margin-bottom: 15px;
+
+  color:
+    var(--red2);
+
+  font:
+    9px "Share Tech Mono",
+    monospace;
+
+  letter-spacing:
+    3px;
+}
+
+
+.tree-info-panel p {
+  margin: 0;
+
+  color:
+    #777b76;
+
+  font:
+    11px/1.75 "Share Tech Mono",
+    monospace;
+}
+
+
+.point-grid {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap:
+    2px;
+
+  margin-bottom:
+    18px;
+
+  background:
+    #292c2b;
+}
+
+
+.point-grid div {
+  padding:
+    18px;
+
+  background:
+    #0a0b0b;
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  align-items:
+    center;
+}
+
+
+.point-grid b {
+  color:
+    #777;
+
+  font:
+    9px "Share Tech Mono",
+    monospace;
+
+  letter-spacing:
+    2px;
+}
+
+
+.point-grid strong {
+  color:
+    var(--red2);
+
+  font:
+    700 24px Cinzel,
+    serif;
+}
+
+
+.ending-detail {
+  text-align:
+    left;
+
+  padding:
+    50px;
+}
+
+
+.ending-detail > h3,
+.ending-detail > p {
+  text-align:
+    center;
+}
+
+
+.ending-detail > p {
+  max-width:
+    760px;
+
+  margin:
+    0 auto 30px;
+}
+
+
+.ending-columns {
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:
+    18px;
+
+  margin-top:
+    34px;
+}
+
+
+.ending-panel {
+  padding:
+    25px;
+
+  border:
+    1px solid #2b2e2d;
+
+  background:
+    rgba(8,9,9,.7);
+}
+
+
+.ending-panel.avoid {
+  border-color:
+    rgba(167,25,25,.28);
+}
+
+
+.ending-panel > span {
+  display:
+    block;
+
+  margin-bottom:
+    18px;
+
+  color:
+    var(--red2);
+
+  font:
+    9px "Share Tech Mono",
+    monospace;
+
+  letter-spacing:
+    3px;
+}
+
+
+.ending-panel ul {
+  margin:
+    0;
+
+  padding-left:
+    18px;
+}
+
+
+.ending-panel li {
+  margin-bottom:
+    11px;
+
+  color:
+    #777b76;
+
+  font:
+    11px/1.7 "Share Tech Mono",
+    monospace;
+}
+
+
+.ending-panel li::marker {
+  color:
+    var(--red2);
+}
+
+
+.ending-note {
+  margin-top:
+    20px;
+
+  padding:
+    18px 20px;
+
+  border-left:
+    2px solid var(--red2);
+
+  background:
+    rgba(70,10,10,.12);
+
+  color:
+    #757975;
+
+  font:
+    10px/1.7 "Share Tech Mono",
+    monospace;
+}
+
+
+.ending-note b {
+  color:
+    #aaa;
+}
+
+
+.ending-steps {
+  display:
+    grid;
+
+  gap:
+    8px;
+
+  margin-top:
+    32px;
+
+  text-align:
+    left;
+}
+
+
+.ending-steps > div {
+  display:
+    grid;
+
+  grid-template-columns:
+    55px 240px 1fr;
+
+  gap:
+    20px;
+
+  align-items:
+    start;
+
+  padding:
+    18px 20px;
+
+  border:
+    1px solid #292c2b;
+
+  background:
+    rgba(8,9,9,.68);
+}
+
+
+.ending-steps > div > b {
+  color:
+    var(--red2);
+
+  font:
+    11px "Share Tech Mono",
+    monospace;
+
+  letter-spacing:
+    2px;
+}
+
+
+.ending-steps strong {
+  color:
+    #c4c6c0;
+
+  font:
+    600 15px Cinzel,
+    serif;
+}
+
+
+.ending-steps span {
+  color:
+    #757975;
+
+  font:
+    10px/1.7 "Share Tech Mono",
+    monospace;
+}
+
+
+.numbered-route > div {
+  border-left:
+    2px solid rgba(167,25,25,.55);
+}
+
+
+/* =========================================================
+   RESPONSIVE ENDINGS TREE
+   ========================================================= */
+
+@media (max-width: 980px) {
+
+  .tree-choices-3 {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .tree-choice-route {
+    grid-column:
+      auto;
+  }
+
+
+  .ending-columns {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .ending-steps > div {
+    grid-template-columns:
+      45px 1fr;
+  }
+
+
+  .ending-steps span {
+    grid-column:
+      2;
+  }
+
+}
+
+
+@media (max-width: 800px) {
+
+  .point-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .ending-detail {
+    padding:
+      35px 22px;
+  }
+
+
+  .ending-panel {
+    padding:
+      20px;
+  }
+
+}
+/* =========================================================
+   ENDINGS TREE — LARGER DESCRIPTION TEXT
+   ========================================================= */
+
+/* Main branch choice descriptions */
+.tree-choice .choice-text small {
+  font-size: 14px;
+  line-height: 1.75;
+  color: #8f928d;
+}
+
+/* Main tree explanatory paragraphs */
+.node-content p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #888c87;
+}
+
+/* Main / New Game+ information panels */
+.tree-info-panel p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #858984;
+}
+
+/* Ending introductory descriptions */
+.ending-detail > p {
+  font-size: 16px;
+  line-height: 1.85;
+  color: #92958f;
+}
+
+/* DO / AVOID requirement text */
+.ending-panel li {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #858984;
+}
+
+/* Extra ending notes */
+.ending-note {
+  font-size: 13px;
+  line-height: 1.8;
+  color: #858984;
+}
+
+/* New Game+ step descriptions */
+.ending-steps span {
+  font-size: 13px;
+  line-height: 1.8;
+  color: #858984;
+}
+
+/* New Game+ item names */
+.ending-steps strong {
+  font-size: 16px;
+}
+
+/* Choice titles */
+.choice-text strong {
+  font-size: 18px;
+}
+
+/* Point-system labels */
+.point-grid b {
+  font-size: 11px;
+}
+
+.point-grid strong {
+  font-size: 28px;
+}
+
+
+/* =========================================================
+   EVEN LARGER TEXT ON SMALL SCREENS
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+  .tree-choice .choice-text small {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .node-content p {
+    font-size: 14px;
+  }
+
+  .ending-detail > p {
+    font-size: 15px;
+  }
+
+  .ending-panel li {
+    font-size: 13px;
+  }
+
+  .ending-steps span {
+    font-size: 12px;
+  }
+
+}
+/* =========================================================
+   ENDINGS — PHOTO EVIDENCE
+========================================================= */
+
+.ending-steps > div.has-ending-photo {
+  grid-template-columns:
+    150px 55px 220px 1fr;
+
+  align-items:
+    stretch;
+}
+
+
+/* =========================================================
+   STEP PHOTO
+========================================================= */
+
+.ending-step-photo {
+  position:
+    relative;
+
+  width:
+    100%;
+
+  min-height:
+    150px;
+
+  padding:
+    0;
+
+  overflow:
+    hidden;
+
+  border:
+    1px solid rgba(167,25,25,.30);
+
+  background:
+    #070808;
+
+  cursor:
+    pointer;
+
+  grid-row:
+    1;
+}
+
+
+.ending-step-photo::after {
+  content:
+    "VIEW";
+
+  position:
+    absolute;
+
+  right:
+    8px;
+
+  bottom:
+    8px;
+
+  padding:
+    5px 7px;
+
+  background:
+    rgba(0,0,0,.78);
+
+  border-left:
+    2px solid var(--red2);
+
+  color:
+    #ddd;
+
+  font:
+    8px "Share Tech Mono", monospace;
+
+  letter-spacing:
+    2px;
+
+  opacity:
+    0;
+
+  transform:
+    translateY(5px);
+
+  transition:
+    opacity .25s ease,
+    transform .25s ease;
+}
+
+
+.ending-step-photo:hover::after {
+  opacity:
+    1;
+
+  transform:
+    translateY(0);
+}
+
+
+.ending-step-photo img {
+  width:
+    100%;
+
+  height:
+    100%;
+
+  min-height:
+    150px;
+
+  display:
+    block;
+
+  object-fit:
+    cover;
+
+  object-position:
+    center;
+
+  filter:
+    grayscale(20%)
+    contrast(108%)
+    brightness(72%);
+
+  transform:
+    scale(1.01);
+
+  transition:
+    transform .6s cubic-bezier(.22,.61,.36,1),
+    filter .4s ease;
+}
+
+
+.ending-step-photo:hover img {
+  transform:
+    scale(1.07);
+
+  filter:
+    grayscale(0%)
+    contrast(112%)
+    brightness(95%);
+}
+
+
+/* =========================================================
+   EXTRA PHOTO GALLERY
+========================================================= */
+
+.ending-gallery {
+  margin-top:
+    30px;
+
+  padding-top:
+    28px;
+
+  border-top:
+    1px solid rgba(255,255,255,.07);
+
+  text-align:
+    left;
+}
+
+
+.ending-gallery-head {
+  margin-bottom:
+    15px;
+}
+
+
+.ending-info-kicker {
+  color:
+    var(--red2);
+
+  font:
+    9px "Share Tech Mono", monospace;
+
+  letter-spacing:
+    3px;
+}
+
+
+.ending-gallery-grid {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap:
+    10px;
+}
+
+
+.ending-gallery-item {
+  position:
+    relative;
+
+  display:
+    block;
+
+  min-height:
+    145px;
+
+  width:
+    100%;
+
+  padding:
+    0;
+
+  overflow:
+    hidden;
+
+  border:
+    1px solid #2c2e2d;
+
+  background:
+    #070808;
+
+  cursor:
+    pointer;
+
+  text-align:
+    left;
+}
+
+
+.ending-gallery-item img {
+  width:
+    100%;
+
+  height:
+    145px;
+
+  display:
+    block;
+
+  object-fit:
+    cover;
+
+  filter:
+    grayscale(22%)
+    contrast(108%)
+    brightness(70%);
+
+  transform:
+    scale(1.01);
+
+  transition:
+    transform .65s cubic-bezier(.22,.61,.36,1),
+    filter .4s ease;
+}
+
+
+.ending-gallery-item:hover img {
+  transform:
+    scale(1.08);
+
+  filter:
+    grayscale(0%)
+    contrast(112%)
+    brightness(95%);
+}
+
+
+.ending-gallery-caption {
+  position:
+    absolute;
+
+  left:
+    0;
+
+  right:
+    0;
+
+  bottom:
+    0;
+
+  padding:
+    9px 10px;
+
+  color:
+    #ddd;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(0,0,0,.92),
+      rgba(0,0,0,.10)
+    );
+
+  font:
+    9px/1.4 "Share Tech Mono", monospace;
+
+  letter-spacing:
+    1px;
+}
+
+
+.ending-gallery-item::after {
+  content:
+    "+";
+
+  position:
+    absolute;
+
+  top:
+    8px;
+
+  right:
+    9px;
+
+  color:
+    #ddd;
+
+  font:
+    18px Arial, sans-serif;
+
+  text-shadow:
+    0 2px 8px #000;
+}
+
+
+/* =========================================================
+   FULLSCREEN IMAGE VIEWER
+========================================================= */
+
+.ending-image-modal {
+  position:
+    fixed;
+
+  inset:
+    0;
+
+  z-index:
+    140;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  padding:
+    35px;
+
+  opacity:
+    0;
+
+  visibility:
+    hidden;
+
+  pointer-events:
+    none;
+
+  transition:
+    opacity .28s ease,
+    visibility .28s ease;
+}
+
+
+.ending-image-modal.open {
+  opacity:
+    1;
+
+  visibility:
+    visible;
+
+  pointer-events:
+    auto;
+}
+
+
+.ending-image-backdrop {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(40,40,38,.26),
+      rgba(0,0,0,.96) 80%
+    );
+
+  backdrop-filter:
+    blur(9px);
+}
+
+
+.ending-image-window {
+  position:
+    relative;
+
+  z-index:
+    2;
+
+  width:
+    min(1200px, 94vw);
+
+  max-height:
+    92vh;
+
+  padding:
+    18px;
+
+  border:
+    1px solid rgba(167,25,25,.55);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(22,24,24,.98),
+      rgba(4,5,5,.99)
+    );
+
+  box-shadow:
+    0 30px 100px rgba(0,0,0,.82),
+    0 0 80px rgba(90,10,10,.12);
+}
+
+
+.ending-image-window img {
+  display:
+    block;
+
+  width:
+    100%;
+
+  max-height:
+    76vh;
+
+  object-fit:
+    contain;
+
+  background:
+    #030404;
+}
+
+
+.ending-image-meta {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    20px;
+
+  padding:
+    4px 48px 15px 3px;
+}
+
+
+.ending-image-meta span {
+  color:
+    var(--red2);
+
+  font:
+    8px "Share Tech Mono", monospace;
+
+  letter-spacing:
+    3px;
+}
+
+
+.ending-image-meta strong {
+  color:
+    #bbb;
+
+  font:
+    12px "Share Tech Mono", monospace;
+
+  letter-spacing:
+    1px;
+
+  text-align:
+    right;
+}
+
+
+.ending-image-close {
+  position:
+    absolute;
+
+  top:
+    10px;
+
+  right:
+    10px;
+
+  z-index:
+    4;
+
+  width:
+    38px;
+
+  height:
+    38px;
+
+  border:
+    1px solid #3b3d3c;
+
+  background:
+    rgba(0,0,0,.80);
+
+  color:
+    #ddd;
+
+  font:
+    24px Arial, sans-serif;
+
+  line-height:
+    1;
+
+  cursor:
+    pointer;
+}
+
+
+.ending-image-close:hover {
+  border-color:
+    var(--red2);
+
+  color:
+    #fff;
+}
+
+
+body.ending-image-open {
+  overflow:
+    hidden;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 1050px) {
+
+  .ending-steps > div.has-ending-photo {
+    grid-template-columns:
+      125px 45px 190px 1fr;
+  }
+
+
+  .ending-gallery-grid {
+    grid-template-columns:
+      repeat(3, 1fr);
+  }
+
+}
+
+
+@media (max-width: 800px) {
+
+  .ending-steps > div.has-ending-photo {
+    grid-template-columns:
+      115px 45px 1fr;
+  }
+
+
+  .ending-step-photo {
+    grid-row:
+      1 / span 2;
+  }
+
+
+  .ending-steps > div.has-ending-photo > span {
+    grid-column:
+      3;
+  }
+
+
+  .ending-gallery-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+
+  .ending-image-modal {
+    padding:
+      15px;
+  }
+
+
+  .ending-image-window {
+    width:
+      96vw;
+
+    padding:
+      12px;
+  }
+
+
+  .ending-image-meta {
+    padding-right:
+      42px;
+
+    flex-direction:
+      column;
+
+    align-items:
+      flex-start;
+
+    gap:
+      6px;
+  }
+
+
+  .ending-image-meta strong {
+    text-align:
+      left;
+  }
+
+}
+
+
+@media (max-width: 550px) {
+
+  .ending-steps > div.has-ending-photo {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .ending-step-photo {
+    grid-row:
+      auto;
+
+    min-height:
+      190px;
+  }
+
+
+  .ending-step-photo img {
+    min-height:
+      190px;
+  }
+
+
+  .ending-steps > div.has-ending-photo > b,
+  .ending-steps > div.has-ending-photo > strong,
+  .ending-steps > div.has-ending-photo > span {
+    grid-column:
+      auto;
+  }
+
+
+  .ending-gallery-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+}
+/* =========================================================
+   SILENT HILL 2
+   MOBILE / ANDROID / IOS OPTIMIZATION
+   FINAL OVERRIDE LAYER
+========================================================= */
+
+
+/* =========================================================
+   MOBILE BASE
+========================================================= */
+
+html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+img,
+video {
+  max-width: 100%;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+/* =========================================================
+   SAFE AREA — IPHONE / IOS
+========================================================= */
+
+.site-header {
+  padding-left:
+    max(5vw, env(safe-area-inset-left));
+
+  padding-right:
+    max(5vw, env(safe-area-inset-right));
+}
+
+main,
+.page {
+  padding-bottom:
+    env(safe-area-inset-bottom);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+@media (max-width: 800px) {
+
+  .site-header {
+    height:
+      64px;
+
+    padding:
+      0 18px;
+
+    min-height:
+      calc(64px + env(safe-area-inset-top));
+
+    padding-top:
+      env(safe-area-inset-top);
+
+    box-sizing:
+      border-box;
+  }
+
+
+  .brand {
+    gap:
+      8px;
+
+    letter-spacing:
+      2px;
+  }
+
+
+  .brand span {
+    font-size:
+      10px;
+  }
+
+
+  .brand strong {
+    font-size:
+      25px;
+  }
+
+
+  .menu-toggle {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    width:
+      46px;
+
+    height:
+      46px;
+
+    padding:
+      0;
+
+    border:
+      1px solid rgba(255,255,255,.10);
+
+    background:
+      rgba(7,8,8,.55);
+
+    color:
+      #ccc;
+
+    font-size:
+      23px;
+
+    line-height:
+      1;
+
+    border-radius:
+      0;
+
+    touch-action:
+      manipulation;
+  }
+
+
+  .menu-toggle:active {
+    transform:
+      scale(.94);
+
+    border-color:
+      rgba(197,40,40,.65);
+  }
+
+
+  .nav {
+    display: none;
+    position:
+      fixed;
+
+    top:
+      calc(64px + env(safe-area-inset-top));
+
+    left:
+      0;
+
+    right:
+      0;
+
+    max-height:
+      calc(
+        100dvh -
+        64px -
+        env(safe-area-inset-top)
+      );
+
+    overflow-y:
+      auto;
+
+    -webkit-overflow-scrolling:
+      touch;
+
+    padding:
+      14px 18px
+      calc(
+        20px +
+        env(safe-area-inset-bottom)
+      );
+
+    background:
+      rgba(5,6,6,.97);
+
+    border-bottom:
+      1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+      0 18px 45px rgba(0,0,0,.55);
+
+    backdrop-filter:
+      blur(14px);
+
+    -webkit-backdrop-filter:
+      blur(14px);
+
+    gap:
+      8px;
+  }
+
+
+  .nav.open {
+    display:
+      flex;
+
+    animation:
+      mobileNavOpen
+      .25s
+      ease-out
+      both;
+  }
+
+
+  @keyframes mobileNavOpen {
+
+    from {
+      opacity:
+        0;
+
+      transform:
+        translateY(-8px);
+    }
+
+    to {
+      opacity:
+        1;
+
+      transform:
+        translateY(0);
+    }
+
+  }
+
+
+  .nav-main {
+    width:
+      100%;
+
+    gap:
+      4px;
+  }
+
+
+  .nav-main > .nav-link {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    min-height:
+      48px;
+
+    padding:
+      13px 12px;
+
+    border-bottom:
+      1px solid rgba(255,255,255,.06);
+
+    font-size:
+      12px;
+
+    letter-spacing:
+      2.5px;
+  }
+
+
+  .nav-main > .nav-link.active {
+    border-left:
+      2px solid var(--red2);
+
+    padding-left:
+      10px;
+
+    background:
+      rgba(157,23,23,.10);
+  }
+
+
+  .nav-tools {
+    width:
+      100%;
+
+    justify-content:
+      stretch;
+
+    display:
+      grid;
+
+    grid-template-columns:
+      1fr 1fr;
+
+    gap:
+      7px;
+
+    margin-top:
+      8px;
+  }
+
+
+  .nav-tool {
+    min-height:
+      46px;
+
+    padding:
+      10px;
+
+    font-size:
+      9px;
+
+    letter-spacing:
+      1.5px;
+
+    touch-action:
+      manipulation;
+  }
+
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+@media (max-width: 800px) {
+
+  .hero {
+    min-height:
+      100svh;
+
+    min-height:
+      100dvh;
+
+    padding:
+      110px 22px
+      80px;
+
+    align-items:
+      center;
+  }
+
+
+  .hero-copy {
+    width:
+      100%;
+
+    max-width:
+      none;
+  }
+
+
+  .hero h1 {
+    font-size:
+      clamp(
+        58px,
+        19vw,
+        96px
+      );
+
+    line-height:
+      .82;
+
+    letter-spacing:
+      -4px;
+
+    max-width:
+      100%;
+  }
+
+
+  .hero h1 em {
+    margin-left:
+      5px;
+  }
+
+
+  .eyebrow {
+    font-size:
+      9px;
+
+    letter-spacing:
+      2px;
+
+    line-height:
+      1.5;
+
+    margin-bottom:
+      13px;
+  }
+
+
+  .tagline {
+    max-width:
+      100%;
+
+    margin:
+      25px 0;
+
+    font-size:
+      13px;
+
+    line-height:
+      1.65;
+  }
+
+
+  .hero-actions {
+    width:
+      100%;
+
+    display:
+      grid;
+
+    grid-template-columns:
+      1fr;
+
+    gap:
+      9px;
+  }
+
+
+  .hero-actions .btn {
+    width:
+      100%;
+
+    min-height:
+      50px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    padding:
+      14px 16px;
+
+    font-size:
+      10px;
+
+    letter-spacing:
+      1.8px;
+  }
+
+
+  .location-card {
+    display:
+      none;
+  }
+
+
+  .scroll-hint {
+    bottom:
+      calc(
+        16px +
+        env(safe-area-inset-bottom)
+      );
+
+    font-size:
+      8px;
+  }
+
+
+  .hero-video {
+    object-position:
+      center center;
+
+    filter:
+      grayscale(75%)
+      contrast(105%)
+      brightness(82%);
+  }
+
+}
+
+
+/* =========================================================
+   GENERAL SECTIONS
+========================================================= */
+
+@media (max-width: 800px) {
+
+  .section {
+    width:
+      100%;
+
+    max-width:
+      100%;
+
+    padding:
+      72px 22px;
+  }
+
+
+  .intro {
+    display:
+      block;
+  }
+
+
+  .section-number {
+    margin-bottom:
+      28px;
+  }
+
+
+  .intro h2,
+  .section-heading h2 {
+    font-size:
+      clamp(
+        31px,
+        8.5vw,
+        48px
+      );
+
+    line-height:
+      1.05;
+
+    letter-spacing:
+      -1px;
+  }
+
+
+  .lead {
+    font-size:
+      16px;
+
+    line-height:
+      1.8;
+  }
+
+
+  .muted {
+    font-size:
+      11px;
+
+    line-height:
+      1.7;
+  }
+
+
+  .section-heading {
+    margin-bottom:
+      28px;
+  }
+
+
+  .quote-section {
+    padding:
+      80px 22px;
+  }
+
+}
+
+
+/* =========================================================
+   HOME / FEATURE CARDS
+========================================================= */
+
+@media (max-width: 800px) {
+
+  .card-grid {
+    grid-template-columns:
+      1fr;
+
+    gap:
+      1px;
+  }
+
+
+  .feature-card {
+    min-height:
+      220px;
+
+    padding:
+      26px 22px;
+  }
+
+
+  .feature-card h3 {
+    font-size:
+      24px;
+
+    margin:
+      23px 0 12px;
+  }
+
+
+  .feature-card p {
+    font-size:
+      14px;
+
+    line-height:
+      1.7;
+
+    max-width:
+      none;
+  }
+
+
+  .card-link {
+    bottom:
+      22px;
+
+    font-size:
+      9px;
+  }
+
+}
+
+
+/* =========================================================
+   PAGE HERO
+========================================================= */
+
+@media (max-width: 800px) {
+
+  .page-hero {
+    min-height:
+      auto;
+
+    padding:
+      115px 22px
+      58px;
+  }
+
+
+  .page-hero h1 {
+    font-size:
+      clamp(
+        48px,
+        14vw,
+        78px
+      );
+
+    line-height:
+      .88;
+
+    letter-spacing:
+      -3px;
+  }
+
+}
+
+
+/* =========================================================
+   CHARACTER DATABASE
+========================================================= */
+
+@media (max-width: 800px) {
+
+  .character-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .character-card {
+    display:
+      grid;
+
+    grid-template-columns:
+      96px 1fr;
+
+    min-width:
+      0;
+  }
+
+
+  .character-photo {
+    width:
+      96px;
+
+    min-height:
+      240px;
+  }
+
+
+  .character-photo img {
+    width:
+      96px;
+
+    min-height:
+      240px;
+
+    object-fit:
+      cover;
+  }
+
+
+  .character-info {
+    min-width:
+      0;
+
+    padding:
+      20px 17px;
+  }
+
+
+  .character-info h2 {
+    font-size:
+      19px;
+
+    line-height:
+      1.15;
+  }
+
+
+  .character-info p {
+    font-size:
+      13px;
+
+    line-height:
+      1.7;
+  }
+
+}
+
+
+/* =========================================================
+   CREATURE DATABASE
+========================================================= */
+
+@media (max-width: 800px) {
+
+  .creature-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .creature-card {
+    display:
+      grid;
+
+    grid-template-columns:
+      96px 1fr;
+
+    min-width:
+      0;
+  }
+
+
+  .creature-photo {
+    width:
+      96px;
+
+    min-height:
+      250px;
+  }
+
+
+  .creature-photo img {
+    width:
+      96px;
+
+    min-height:
+      250px;
+
+    object-fit:
+      cover;
+  }
+
+
+  .creature-info {
+    min-width:
+      0;
+
+    padding:
+      20px 17px;
+  }
+
+
+  .creature-info h2 {
+    font-size:
+      19px;
+
+    line-height:
+      1.15;
+  }
+
+
+  .creature-info p {
+    font-size:
+      13px;
+
+    line-height:
+      1.72;
+  }
+
+}
+
+
+/* =========================================================
+   WORLD / LOCATION CARDS
+========================================================= */
+
+@media (max-width: 800px) {
+
+  .world-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .world-card {
+    min-height:
+      220px;
+
+    padding:
+      24px 20px;
+  }
+
+
+  .world-card h2 {
+    font-size:
+      23px;
+  }
+
+
+  .world-card p {
+    font-size:
+      13px;
+
+    line-height:
+      1.7;
+  }
+
+}
+
+
+/* =========================================================
+   LORE
+========================================================= */
+
+@media (max-width: 800px) {
+
+  .lore-hero {
+    min-height:
+      auto;
+
+    padding:
+      112px 22px
+      70px;
+  }
+
+
+  .lore-hero h1 {
+    font-size:
+      clamp(
+        46px,
+        13vw,
+        70px
+      );
+
+    line-height:
+      .88;
+
+    letter-spacing:
+      -3px;
+  }
+
+
+  .lore-hero-intro {
+    font-size:
+      14px;
+
+    line-height:
+      1.75;
+  }
+
+
+  .lore-warning {
+    padding:
+      16px;
+  }
+
+
+  .lore-warning p {
+    font-size:
+      12px;
+
+    line-height:
+      1.7;
+  }
+
+
+  .lore-archive {
+    padding:
+      65px 22px;
+  }
+
+
+  .lore-chapter {
+    width:
+      100%;
+
+    grid-template-columns:
+      1fr;
+
+    gap:
+      15px;
+
+    padding:
+      58px 0;
+  }
+
+
+  .lore-chapter-number {
+    font-size:
+      12px;
+  }
+
+
+  .lore-chapter-content {
+    min-width:
+      0;
+  }
+
+
+  .lore-chapter-content h2 {
+    font-size:
+      clamp(
+        31px,
+        9vw,
+        46px
+      );
+
+    line-height:
+      1;
+
+    letter-spacing:
+      -1px;
+  }
+
+
+  .lore-chapter-content > p:not(.eyebrow) {
+    font-size:
+      15px;
+
+    line-height:
+      1.85;
+  }
+
+
+  .lore-highlight,
+  .lore-statement,
+  .lore-reveal {
+    margin:
+      25px 0;
+  }
+
+
+  .lore-truth {
+    margin:
+      28px -22px;
+
+    padding:
+      65px 22px;
+  }
+
+}
+
+
+/* =========================================================
+   ENDINGS TREE
+========================================================= */
+
+@media (max-width: 800px) {
+
+  .ending-guide {
+    overflow:
+      visible;
+  }
+
+
+  .decision-tree {
+    width:
+      100%;
+
+    max-width:
+      100%;
+
+    overflow:
+      visible;
+  }
+
+
+  .tree-node {
+    width:
+      100%;
+
+    max-width:
+      100%;
+
+    display:
+      grid;
+
+    grid-template-columns:
+      36px 1fr;
+
+    gap:
+      13px;
+
+    padding:
+      18px 15px;
+
+    min-width:
+      0;
+  }
+
+
+  .tree-node > * {
+    min-width:
+      0;
+  }
+
+
+  .tree-node-number {
+    font-size:
+      9px;
+  }
+
+
+  .tree-node h3 {
+    font-size:
+      17px;
+
+    line-height:
+      1.2;
+  }
+
+
+  .tree-node p {
+    font-size:
+      13px;
+
+    line-height:
+      1.7;
+  }
+
+
+  .tree-choices {
+    width:
+      100%;
+
+    grid-template-columns:
+      1fr;
+
+    gap:
+      8px;
+  }
+
+
+  .tree-choice {
+    width:
+      100%;
+
+    min-height:
+      68px;
+
+    display:
+      grid;
+
+    grid-template-columns:
+      32px 1fr 24px;
+
+    align-items:
+      center;
+
+    gap:
+      10px;
+
+    padding:
+      12px 13px;
+
+    text-align:
+      left;
+
+    touch-action:
+      manipulation;
+  }
+
+
+  .tree-choice .choice-number {
+    font-size:
+      9px;
+  }
+
+
+  .tree-choice .choice-text {
+    min-width:
+      0;
+  }
+
+
+  .tree-choice .choice-text strong {
+    display:
+      block;
+
+    font-size:
+      14px;
+
+    line-height:
+      1.25;
+  }
+
+
+  .tree-choice .choice-text small {
+    display:
+      block;
+
+    margin-top:
+      5px;
+
+    font-size:
+      11px;
+
+    line-height:
+      1.55;
+  }
+
+
+  .tree-choice .choice-arrow {
+    font-size:
+      16px;
+  }
+
+
+  .tree-info-panel {
+    width:
+      100%;
+
+    padding:
+      18px 15px;
+  }
+
+
+  .tree-info-panel p {
+    font-size:
+      12px;
+
+    line-height:
+      1.75;
+  }
+
+
+  .tree-result {
+    width:
+      100%;
+
+    max-width:
+      100%;
+
+    padding:
+      36px 18px;
+  }
+
+
+  .tree-result h3 {
+    font-size:
+      clamp(
+        34px,
+        10vw,
+        52px
+      );
+
+    line-height:
+      .95;
+  }
+
+
+  .ending-detail > p {
+    font-size:
+      14px;
+
+    line-height:
+      1.8;
+  }
+
+
+  .ending-steps {
+    width:
+      100%;
+
+    gap:
+      9px;
+  }
+
+
+  .ending-steps > div {
+    width:
+      100%;
+
+    grid-template-columns:
+      34px 1fr;
+
+    gap:
+      7px 12px;
+
+    padding:
+      17px 14px;
+
+    min-width:
+      0;
+  }
+
+
+  .ending-steps > div > b {
+    grid-column:
+      1;
+
+    grid-row:
+      1 / span 2;
+  }
+
+
+  .ending-steps > div > strong,
+  .ending-steps > div > span {
+    grid-column:
+      2;
+  }
+
+
+  .ending-steps > div > strong {
+    font-size:
+      14px;
+
+    line-height:
+      1.3;
+  }
+
+
+  .ending-steps > div > span {
+    font-size:
+      12px;
+
+    line-height:
+      1.72;
+  }
+
+
+  .ending-note {
+    font-size:
+      12px;
+
+    line-height:
+      1.7;
+  }
+
+
+  /* NG+ image cards */
+
+  .ending-steps > div.has-ending-photo {
+    grid-template-columns:
+      1fr;
+
+    gap:
+      11px;
+  }
+
+
+  .ending-steps > div.has-ending-photo
+  > .ending-step-photo {
+    grid-column:
+      1;
+
+    grid-row:
+      auto;
+
+    width:
+      100%;
+
+    min-height:
+      190px;
+  }
+
+
+  .ending-steps > div.has-ending-photo
+  > .ending-step-photo img {
+    width:
+      100%;
+
+    min-height:
+      190px;
+
+    max-height:
+      260px;
+
+    object-fit:
+      cover;
+  }
+
+
+  .ending-gallery {
+    margin-top:
+      24px;
+  }
+
+
+  .ending-gallery-grid {
+    grid-template-columns:
+      1fr 1fr;
+
+    gap:
+      7px;
+  }
+
+
+  .ending-gallery-item {
+    min-height:
+      125px;
+  }
+
+
+  .ending-gallery-item img {
+    height:
+      125px;
+  }
+
+
+  .ending-gallery-caption {
+    font-size:
+      8px;
+
+    padding:
+      7px 8px;
+
+    line-height:
+      1.3;
+  }
+
+}
+
+
+/* =========================================================
+   ENDING IMAGE LIGHTBOX
+========================================================= */
+
+@media (max-width: 800px) {
+
+  .ending-image-modal {
+    padding:
+      8px;
+  }
+
+
+  .ending-image-window {
+    width:
+      100%;
+
+    max-width:
+      100%;
+
+    max-height:
+      calc(
+        100dvh -
+        16px
+      );
+
+    max-height:
+      calc(
+        100svh -
+        16px
+      );
+
+    padding:
+      9px;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+  }
+
+
+  .ending-image-meta {
+    flex:
+      0 0 auto;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    align-items:
+      flex-start;
+
+    gap:
+      5px;
+
+    padding:
+      3px 44px 10px 2px;
+  }
+
+
+  .ending-image-meta span {
+    font-size:
+      8px;
+
+    letter-spacing:
+      2px;
+  }
+
+
+  .ending-image-meta strong {
+    font-size:
+      10px;
+
+    line-height:
+      1.4;
+
+    text-align:
+      left;
+  }
+
+
+  .ending-image-window img {
+    width:
+      100%;
+
+    max-width:
+      100%;
+
+    max-height:
+      calc(
+        100dvh -
+        100px
+      );
+
+    max-height:
+      calc(
+        100svh -
+        100px
+      );
+
+    flex:
+      1 1 auto;
+
+    object-fit:
+      contain;
+  }
+
+
+  .ending-image-close {
+    width:
+      42px;
+
+    height:
+      42px;
+
+    top:
+      8px;
+
+    right:
+      8px;
+
+    font-size:
+      25px;
+
+    touch-action:
+      manipulation;
+  }
+
+}
+
+
+/* =========================================================
+   WORLD MAP VIEWER
+========================================================= */
+
+@media (max-width: 800px) {
+
+  .world-map-window {
+    width:
+      calc(
+        100vw -
+        20px
+      );
+
+    max-width:
+      calc(
+        100vw -
+        20px
+      );
+
+    max-height:
+      calc(
+        100dvh -
+        20px
+      );
+
+    padding:
+      10px;
+  }
+
+
+  .world-map-view {
+    width:
+      100%;
+
+    min-width:
+      0;
+
+    overflow:
+      hidden;
+  }
+
+
+  .world-map-view img {
+    max-width:
+      100%;
+
+    height:
+      auto;
+
+    object-fit:
+      contain;
+  }
+
+
+  .world-map-nav {
+    width:
+      42px;
+
+    height:
+      42px;
+
+    touch-action:
+      manipulation;
+  }
+
+
+  .world-map-window-footer {
+    display:
+      grid;
+
+    grid-template-columns:
+      1fr;
+
+    gap:
+      5px;
+
+    text-align:
+      center;
+
+    padding:
+      9px 5px;
+
+    font-size:
+      8px;
+  }
+
+}
+
+
+/* =========================================================
+   DOWNLOAD / TOOL CONTROLS
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .download-tool,
+  .steam-tool {
+    min-height:
+      46px;
+  }
+
+
+  .download-icon {
+    font-size:
+      14px;
+  }
+
+}
+
+
+/* =========================================================
+   SOUND CONTROLS
+========================================================= */
+
+@media (max-width: 800px) {
+
+  .sound-container {
+    right:
+      10px;
+
+    bottom:
+      calc(
+        10px +
+        env(safe-area-inset-bottom)
+      );
+
+    max-width:
+      calc(
+        100vw -
+        20px
+      );
+  }
+
+
+  .music-controls button {
+    min-width:
+      38px;
+
+    min-height:
+      38px;
+  }
+
+
+  .track-button {
+    min-height:
+      38px;
+
+    font-size:
+      9px;
+  }
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+@media (max-width: 800px) {
+
+  footer {
+    width:
+      100%;
+
+    padding:
+      42px 22px
+      calc(
+        42px +
+        env(safe-area-inset-bottom)
+      );
+
+    gap:
+      20px;
+
+    text-align:
+      center;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   320px - 430px
+========================================================= */
+
+@media (max-width: 430px) {
+
+  .site-header {
+    padding-left:
+      13px;
+
+    padding-right:
+      13px;
+  }
+
+
+  .brand span {
+    font-size:
+      9px;
+
+    letter-spacing:
+      1.5px;
+  }
+
+
+  .brand strong {
+    font-size:
+      23px;
+  }
+
+
+  .hero {
+    padding-left:
+      18px;
+
+    padding-right:
+      18px;
+  }
+
+
+  .hero h1 {
+    font-size:
+      clamp(
+        51px,
+        18vw,
+        75px
+      );
+  }
+
+
+  .tagline {
+    font-size:
+      12px;
+  }
+
+
+  .section {
+    padding-left:
+      18px;
+
+    padding-right:
+      18px;
+  }
+
+
+  .feature-card {
+    padding:
+      24px 18px;
+  }
+
+
+  .tree-node {
+    padding:
+      16px 13px;
+  }
+
+
+  .tree-result {
+    padding:
+      32px 14px;
+  }
+
+
+  .ending-gallery-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .ending-gallery-item,
+  .ending-gallery-item img {
+    min-height:
+      180px;
+
+    height:
+      180px;
+  }
+
+}
+
+
+/* =========================================================
+   EXTRA-SMALL PHONES
+========================================================= */
+
+@media (max-width: 360px) {
+
+  .brand span {
+    display:
+      none;
+  }
+
+
+  .hero h1 {
+    font-size:
+      53px;
+
+    letter-spacing:
+      -3px;
+  }
+
+
+  .hero-actions .btn {
+    font-size:
+      9px;
+  }
+
+
+  .tree-choice {
+    grid-template-columns:
+      28px 1fr 19px;
+
+    padding:
+      11px 10px;
+  }
+
+
+  .tree-choice .choice-text strong {
+    font-size:
+      13px;
+  }
+
+
+  .tree-choice .choice-text small {
+    font-size:
+      10px;
+  }
+
+}
+
+
+/* =========================================================
+   TOUCH DEVICES
+========================================================= */
+
+@media (hover: none) and (pointer: coarse) {
+
+  .btn:hover,
+  .feature-card:hover,
+  .nav-tool:hover,
+  .ending-step-photo:hover,
+  .ending-gallery-item:hover {
+    transform:
+      none;
+
+    filter:
+      none;
+  }
+
+
+  .ending-step-photo::after {
+    opacity:
+      .85;
+
+    transform:
+      none;
+  }
+
+
+  .ending-gallery-item::after {
+    opacity:
+      .85;
+  }
+
+
+  .btn:active,
+  .tree-choice:active,
+  .feature-card:active,
+  .ending-gallery-item:active {
+    transform:
+      scale(.985);
+  }
+
+}
+
+
+/* =========================================================
+   REDUCE EFFECT LOAD WHEN REQUESTED
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior:
+      auto;
+  }
+
+
+  *,
+  *::before,
+  *::after {
+    animation-duration:
+      .01ms !important;
+
+    animation-iteration-count:
+      1 !important;
+
+    transition-duration:
+      .01ms !important;
+  }
+
+
+  .fog {
+    animation:
+      none;
+  }
+
+
+  .hero-video {
+    transform:
+      none;
+  }
+
+}
